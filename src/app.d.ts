@@ -7,7 +7,12 @@ declare global {
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
+
+		// Ce que vous exposez via event.locals
+		interface Locals {
+			user: { accountId: number, email: string, token: string, structureId?: number } | null;
+		}
 	}
 }
 
-export {};
+export { };
