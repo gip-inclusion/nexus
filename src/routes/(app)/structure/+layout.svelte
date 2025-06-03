@@ -6,7 +6,7 @@
   let { children } = $props();
 </script>
 
-<header class="mb-6">
+<header class="p-8">
 	<h1 class="text-3xl font-bold">Structure</h1>
 	<nav class="mt-4 flex space-x-4 text-sm font-medium">
 		<a href="/structure"
@@ -35,4 +35,6 @@
 	</nav>
 </header>
 
-{@render children()}
+<div class="p-8">
+	{@render children()}
+</div>
