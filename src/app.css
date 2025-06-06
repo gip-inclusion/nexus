@@ -2,3 +2,8 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+:global(body) {
+    font-family: "Marianne", Arial, sans-serif;
+}
+
