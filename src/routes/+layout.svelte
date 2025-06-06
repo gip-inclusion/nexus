@@ -2,15 +2,32 @@
     
     import '../app.css';
 
-    import { onMount } from 'svelte';
+  import '@gouvfr/dsfr/dist/dsfr.min.css';
+  import '@gouvfr/dsfr/dist/utility/utility.min.css';
 
-    onMount(() => {
-		import('@gouvfr/dsfr/dist/dsfr/dsfr.module.min.js');
-		import('@gouvfr/dsfr/dist/dsfr/dsfr.nomodule.min.js');
-	});
+  import { onMount } from 'svelte';
 
-	let { children } = $props();
+  onMount(async () => {
+    await import('@gouvfr/dsfr/dist/dsfr.module.min.js');
+
+    if (typeof window !== 'undefined' && window.dsfr) {
+      console.log('DSFR JavaScript loaded successfully!');
+    }
+  });
+  
+  let { children } = $props();
 
 </script>
 
+<svelte:head>
+  <link rel="preload" href="/fonts/Marianne-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link rel="preload" href="/fonts/Marianne-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+</svelte:head>
+
 {@render children()}
+
+<style>
+  :global(body) {
+    font-family: "Marianne", Arial, sans-serif;
+  }
+</style>

@@ -67,6 +67,7 @@
 		"vitest": "^3.0.0"
 	},
 	"dependencies": {
+		"@gouvfr/dsfr": "^1.13.2",
 		"drizzle-orm": "^0.40.0",
 		"nodemailer": "^7.0.3",
 		"postgres": "^3.4.5"
