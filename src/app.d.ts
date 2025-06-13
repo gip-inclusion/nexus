@@ -10,7 +10,7 @@ declare global {
 
 		// Ce que vous exposez via event.locals
 		interface Locals {
-			user: { accountId: number, email: string, token: string, structureId?: number } | null;
+			user: { accountId: number, email: string, token: string, structureId?: string } | null;
 		}
 	}
 }

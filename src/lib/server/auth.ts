@@ -7,7 +7,7 @@ const MAGIC_LINK_EXPIRATION_MINUTES = 60;
 export async function generateMagicLink(email: string): Promise<string> {
 	const token = randomUUID();
 
-	const filter = encodeURIComponent(JSON.stringify({ email: [email] }));
+	const filter = encodeURIComponent(JSON.stringify({ Email: [email] }));
 
 	const res = await requestGristTable('GET', 'Accounts', `records?filter=${filter}`);
 	const account = res.records?.[0];
@@ -20,12 +20,14 @@ export async function generateMagicLink(email: string): Promise<string> {
 		records: [
 			{
 				fields: {
-					account: account.id,
-					token
+					Account: account.id,
+					Token: token
 				}
 			}
 		]
 	});
+
+	console.log(token)
 
 	return token;
 }

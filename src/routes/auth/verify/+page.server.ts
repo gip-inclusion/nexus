@@ -9,7 +9,7 @@ export async function load({ url, cookies }) {
     // TODO : que faire si une session active et valide existait déjà ?
 
     // 1. Vérifier qu'un lien magique existe bien
-    const filterToken = encodeURIComponent(JSON.stringify({ token: [token] }));
+    const filterToken = encodeURIComponent(JSON.stringify({ Token: [token] }));
     const resToken = await requestGristTable('GET', 'Magic_links', `records?filter=${filterToken}`);
     const tokenRecord = resToken.records?.[0];
 
@@ -22,23 +22,23 @@ export async function load({ url, cookies }) {
     await requestGristTable('PATCH', 'Magic_links', `records`, {
         records: [
             {
-                id: tokenRecord.id,
+                id: tokenRecord['id'],
                 fields: {
-                    activated_at: now,
-                    deprecated_at: new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000) //  14 jours
+                    Activated_at: now,
+                    Deprecated_at: new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000) //  14 jours
                 }
             }
         ]
     });
 
     // 📧 3. Récupérer l'email depuis le champ "account" (référence)
-    const accountId = tokenRecord.fields.account;
+    const accountId = tokenRecord.fields['Account'];
     const filterAccounts = encodeURIComponent(JSON.stringify({ id: [accountId] }));
     const resAccounts = await requestGristTable('GET', 'Accounts', `records?filter=${filterAccounts}`);
     const accountRecord = resAccounts.records?.[0];
 
     // 🧾 5. Memberships du compte
-    const filterMemberships = encodeURIComponent(JSON.stringify({ account: [tokenRecord.fields.account] }));
+    const filterMemberships = encodeURIComponent(JSON.stringify({ Account: [tokenRecord.fields['Account']] }));
     const resMemberships = await requestGristTable('GET', 'Memberships', `records?filter=${filterMemberships}`);
     const memberships = resMemberships.records ?? [];
 
@@ -46,13 +46,13 @@ export async function load({ url, cookies }) {
         throw error(403, 'Aucune structure associée');
     }
 
-    const firstStructureId = resMemberships.records[0].fields.structure;
+    const firstStructureId = resMemberships.records[0].fields['Structure'];
 
     // Créer le cookie de session
     const serializedSession = await createSession({
-        accountId: accountRecord.id,
-        email: accountRecord.email, 
-        token: tokenRecord.fields.token, 
+        accountId: accountRecord['id'],
+        email: accountRecord['Email'], 
+        token: tokenRecord.fields['Token'], 
         structureId: firstStructureId
     });
 
