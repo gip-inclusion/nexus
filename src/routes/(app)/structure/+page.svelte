@@ -32,7 +32,7 @@
 			<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
 				<!-- Offres d'emploi card -->
 				<div class="flex flex-col justify-between rounded-lg border border-[#006ADC] p-4">
-					<a href="/structure/offres-emplois">
+					<a href="/structure/offres-emploi">
 						<div class="flex items-center justify-between">
 							<div class="flex items-center">
 								<img

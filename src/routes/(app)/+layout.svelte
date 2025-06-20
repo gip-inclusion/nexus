@@ -1,7 +1,17 @@
 <script lang="ts">
+ 	import { page } from '$app/stores';
 	import '../../app.css';
 
 	let { data, children } = $props();
+	
+	const links = [
+		{ href: '/structure', label: "Vue d'ensemble" },
+		{ href: '/structure/offres-emploi', label: "Offres d'emplois" },
+		{ href: '/structure/services-insertion', label: "Services d'insertion" },
+		{ href: '/structure/opportunites-commerciales', label: "Opportunités commerciales" }
+	];
+	
+	
 </script>
 
 <div class="flex min-h-screen bg-gray-50 text-[#000638]">
@@ -34,11 +44,18 @@
 							<span>Structure</span>
 							<svg class="ml-auto h-3 w-3" fill="currentColor">…</svg>
 						</div>
-						<ul class="mt-2 ml-6 space-y-1 text-[#0B0B45]">
-							<li><a href="/structure" class="font-semibold">Vue d’ensemble</a></li>
-							<li><a href="/structure/offres">Offres d’emplois</a></li>
-							<li><a href="/structure/services">Services d’insertion</a></li>
-							<li><a href="/structure/opportunites">Opportunités commerciales</a></li>
+						<ul class="mt-2 ml-6 space-y-4 text-[#0B0B45]">
+						{#each links as { href, label } (label)}
+							<li>
+								<a
+									href="{href}"
+									class:font-bold={$page.url.pathname === href}
+									class:font-light={$page.url.pathname !== href}
+								>
+									{label}
+								</a>
+							</li>
+						{/each}
 						</ul>
 					</li>
 				</ul>
