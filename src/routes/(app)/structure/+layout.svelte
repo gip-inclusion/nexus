@@ -4,6 +4,37 @@
 	const pathname = $derived(() => page.url.pathname);
 
 	let { children } = $props();
+
+	const navItems = [
+		{
+			href: '/structure',
+			label: "Vue d'ensemble",
+			isActive: (path: string) => path === '/structure'
+		},
+		{
+			href: '/structure/offres-emploi',
+			label: "Offres d'emplois",
+			isActive: (path: string) => path.startsWith('/structure/offres-emploi')
+		},
+		{
+			href: '/structure/services-insertion',
+			label: "Services d'insertion",
+			isActive: (path: string) => path.startsWith('/structure/services-insertion')
+		},
+		{
+			href: '/structure/opportunites-commerciales',
+			label: 'Opportunités commerciales',
+			isActive: (path: string) => path.startsWith('/structure/opportunites-commerciales')
+		}
+	];
+
+	const getNavLinkClasses = (isActive: boolean) => {
+		const baseClasses = '-mb-px border-b-2 pb-2 transition-colors duration-200';
+		const activeClasses = 'border-[#1E1E9E] font-medium text-[#1E1E9E]';
+		const inactiveClasses = 'border-transparent text-gray-600 hover:text-gray-800';
+
+		return `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`;
+	};
 </script>
 
 <header class="px-8 py-6">
@@ -12,45 +43,11 @@
 	</div>
 
 	<nav class="mt-8 flex space-x-8 border-b border-gray-200 text-base">
-		<a
-			href="/structure"
-			class="-mb-px border-b-2 pb-2 transition-colors duration-200
-            {pathname() === '/structure'
-				? 'border-[#1E1E9E] font-medium text-[#1E1E9E]'
-				: 'border-transparent text-gray-600 hover:text-gray-800'}"
-		>
-			Vue d'ensemble
-		</a>
-
-		<a
-			href="/structure/offres-emploi"
-			class="-mb-px border-b-2 pb-2 transition-colors duration-200
-            {pathname().startsWith('/structure/offres-emploi')
-				? 'border-[#1E1E9E] font-medium text-[#1E1E9E]'
-				: 'border-transparent text-gray-600 hover:text-gray-800'}"
-		>
-			Offres d'emplois
-		</a>
-
-		<a
-			href="/structure/services-insertion"
-			class="-mb-px border-b-2 pb-2 transition-colors duration-200
-            {pathname().startsWith('/structure/services-insertion')
-				? 'border-[#1E1E9E] font-medium text-[#1E1E9E]'
-				: 'border-transparent text-gray-600 hover:text-gray-800'}"
-		>
-			Services d'insertion
-		</a>
-
-		<a
-			href="/structure/opportunites-commerciales"
-			class="-mb-px border-b-2 pb-2 transition-colors duration-200
-            {pathname().startsWith('/structure/opportunites-commerciales')
-				? 'border-[#1E1E9E] font-medium text-[#1E1E9E]'
-				: 'border-transparent text-gray-600 hover:text-gray-800'}"
-		>
-		Opportunités commerciales
-		</a>
+		{#each navItems as navItem (navItem.label)}
+			<a href={navItem.href} class={getNavLinkClasses(navItem.isActive(pathname()))}>
+				{navItem.label}
+			</a>
+		{/each}
 	</nav>
 </header>
 
