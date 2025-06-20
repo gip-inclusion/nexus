@@ -2,9 +2,8 @@
 	export let data;
 
 	const structure = data.structure;
-	const { jobs, applications, services, stats } = data;
+	const { stats } = data;
 
-	// Formater la date de mise à jour
 	const formatDate = (dateString: string) => {
 		if (!dateString) return '-';
 		try {
@@ -12,7 +11,9 @@
 			return date.toLocaleDateString('fr-FR', {
 				day: '2-digit',
 				month: '2-digit',
-				year: 'numeric'
+				year: 'numeric',
+				hour: '2-digit',
+				minute: '2-digit'
 			});
 		} catch {
 			return dateString;
@@ -23,6 +24,103 @@
 <div>
 	<h2 class="mb-4 inline-block p-1 text-2xl font-semibold">Vue d'ensemble</h2>
 
+	<!-- Services -->
+	<section class="mb-8 flex flex-col rounded-lg border border-gray-200 bg-white p-6">
+		<!-- Top row for Title, Date, and Button -->
+		<div class="mb-6">
+			<h2 class="mb-4 text-base font-semibold">Vos services actuels</h2>
+			<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+				<!-- Offres d'emploi card -->
+				<div class="flex flex-col justify-between rounded-lg border border-[#006ADC] p-4">
+					<a href="/structure/offres-emplois">
+						<div class="flex items-center justify-between">
+							<div class="flex items-center">
+								<img
+									src="/images/logo-emplois.png"
+									alt="Offres d'emploi logo"
+									style="width: 20px; height: 20px; margin-right: 5px;"
+								/>
+								<div>
+									<h3 class="font-bold" style="margin-bottom: 0;">Offres d'emplois</h3>
+									<p class="text-sm text-gray-500" style="margin-top: 0;">
+										les Emplois de l'inclusion
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="mt-2 text-sm">
+							<p class="mb-1">
+								<span
+									class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 font-bold text-blue-700"
+									>{stats.activeJobs}</span
+								> offres d'emplois actives
+							</p>
+							<p>
+								<span
+									class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 font-bold text-blue-700"
+									>{stats.inactiveJobs}</span
+								> offres d'emplois inactives
+							</p>
+						</div>
+					</a>
+				</div>
+
+				<!-- Services d'insertion card -->
+				<div class="flex flex-col justify-between rounded-lg border border-[#5B12EB] p-4">
+				    <a href="/structure/services-insertion">	
+    				    <div class="flex items-center justify-between">
+    						<div class="flex items-center">
+    							<img
+    								src="/images/logo-dora.png"
+    								alt="Services d'insertion logo"
+    								style="width: 20px; height: 20px; margin-right: 5px;"
+    							/>
+    							<div>
+    								<h3 class="font-bold text-indigo-600" style="margin-bottom: 0;">
+    									Services d'insertion
+    								</h3>
+    								<p class="text-sm text-gray-500" style="margin-top: 0;">DORA</p>
+    							</div>
+    						</div>
+    					</div>
+    					<div class="mt-2 text-sm">
+    						<p>
+    							<span
+    								class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-50 font-bold text-indigo-700"
+    								>{stats.activeServices}</span
+    							> services d'insertion actifs
+    						</p>
+    					</div>
+				    </a>
+				</div>
+
+				<!-- Opportunités commerciales card -->
+				<div class="flex flex-col justify-between rounded-lg border border-[#FE5455] p-4">
+				    <a href="/structure/opportunites-commerciales">
+    				    <div style="display: flex; align-items: center;">
+    						<div class="flex items-center">
+    							<img
+    								src="/images/logo-marche.png"
+    								alt="Opportunités commerciales logo"
+    								style="width: 20px; height: 20px; margin-right: 5px;"
+    							/>
+    							<div>
+    								<h3 class="font-bold text-red-600" style="margin-bottom: 0;">
+    									Opportunités commerciales
+    								</h3>
+    								<p class="text-sm text-gray-500" style="margin-top: 0;">Le Marché de l'inclusion</p>
+    							</div>
+    						</div>
+    					</div>
+    					<div class="mt-2 text-sm">
+    						<p><span class="font-semibold text-red-700">2</span> nouvelles opportunités</p>
+    					</div>
+				    </a>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<!-- Description and Coordonnées -->
 	<section class="mb-8 flex flex-col rounded-lg border border-gray-200 bg-white p-6">
 		<!-- Top row for Title, Date, and Button -->
@@ -31,7 +129,9 @@
 				<h2 class="text-base font-semibold">Description et coordonnées</h2>
 			</div>
 			<div class="flex items-center justify-end text-xs text-gray-500 italic">
-				<div class="mr-4">dernière mise à jour le {formatDate(structure.edited_at)}</div>
+				{#if structure.edited_at}
+					<div class="mr-4">dernière mise à jour le {formatDate(structure.edited_at)}</div>
+				{/if}
 				<button
 					class="rounded border border-blue-600 bg-white px-3 py-1 text-sm text-blue-600 hover:bg-blue-50"
 					>Modifier</button
@@ -78,92 +178,6 @@
 							{structure.website || '-'}
 						</a>
 					</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Services -->
-	<section class="mb-8">
-		<h2 class="mb-4 text-base font-semibold">Vos outils actuels</h2>
-		<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-			<!-- Offres d'emploi card -->
-			<div class="flex flex-col justify-between rounded-lg border border-[#006ADC] p-4">
-				<div class="flex items-center justify-between">
-					<div class="flex items-center">
-						<img
-							src="/images/logo-emplois.png"
-							alt="Offres d'emploi logo"
-							style="width: 20px; height: 20px; margin-right: 5px;"
-						/>
-						<div>
-							<h3 class="font-bold" style="margin-bottom: 0;">Offres d'emplois</h3>
-							<p class="text-sm text-gray-500" style="margin-top: 0;">les Emplois de l'inclusion</p>
-						</div>
-					</div>
-				</div>
-				<div class="mt-2 text-sm">
-					<p class="mb-1">
-						<span
-							class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 font-bold text-blue-700"
-							>{stats.activeJobs}</span
-						> offres d'emplois actives
-					</p>
-					<p>
-						<span
-							class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 font-bold text-blue-700"
-							>{stats.inactiveJobs}</span
-						> offres d'emplois inactives
-					</p>
-				</div>
-			</div>
-
-			<!-- Services d'insertion card -->
-			<div class="flex flex-col justify-between rounded-lg border border-[#5B12EB] p-4">
-				<div class="flex items-center justify-between">
-					<div class="flex items-center">
-						<img
-							src="/images/logo-dora.png"
-							alt="Services d'insertion logo"
-							style="width: 20px; height: 20px; margin-right: 5px;"
-						/>
-						<div>
-							<h3 class="font-bold text-indigo-600" style="margin-bottom: 0;">
-								Services d'insertion
-							</h3>
-							<p class="text-sm text-gray-500" style="margin-top: 0;">DORA</p>
-						</div>
-					</div>
-				</div>
-				<div class="mt-2 text-sm">
-					<p>
-						<span
-							class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-50 font-bold text-indigo-700"
-							>{stats.activeServices}</span
-						> services d'insertion actifs
-					</p>
-				</div>
-			</div>
-
-			<!-- Opportunités commerciales card -->
-			<div class="flex flex-col justify-between rounded-lg border border-[#FE5455] p-4">
-				<div style="display: flex; align-items: center;">
-					<div class="flex items-center">
-						<img
-							src="/images/logo-marche.png"
-							alt="Opportunités commerciales logo"
-							style="width: 20px; height: 20px; margin-right: 5px;"
-						/>
-						<div>
-							<h3 class="font-bold text-red-600" style="margin-bottom: 0;">
-								Opportunités commerciales
-							</h3>
-							<p class="text-sm text-gray-500" style="margin-top: 0;">Le Marché de l'inclusion</p>
-						</div>
-					</div>
-				</div>
-				<div class="mt-2 text-sm">
-					<p><span class="font-semibold text-red-700">2</span> nouvelles opportunités</p>
 				</div>
 			</div>
 		</div>

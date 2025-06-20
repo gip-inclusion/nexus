@@ -15,8 +15,8 @@
 						<i class="ri-community-line text-xl text-white"></i>
 					</div>
 					<div>
-						<p class="text-sm font-normal text-[#0B0B45]">ETTI</p>
-						<p class="text-base font-bold text-[#0B0B45]">{data.structure.name}</p>
+						<p class="text-sm font-normal text-[#0B0B45]">{data.structure.type || '-'}</p>
+						<p class="text-base font-bold text-[#0B0B45]">{data.structure.name || '-'}</p>
 					</div>
 				</div>
 			</div>

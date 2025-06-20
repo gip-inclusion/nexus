@@ -6,48 +6,56 @@
 	let { children } = $props();
 </script>
 
-<header class="p-8">
-	<h1 class="text-3xl font-bold">Structure</h1>
+<header class="px-8 py-6">
+	<div class="flex items-center justify-between">
+		<h1 class="text-3xl font-bold text-black">Structure</h1>
+		<button
+			class="flex items-center gap-2 rounded-lg bg-[#1E1E9E] px-4 py-2 text-white hover:bg-[#1a1a8a]"
+		>
+			<i class="ri-external-link-line"></i>
+			Créer votre site internet
+		</button>
+	</div>
 
-	<nav class="mt-4 flex space-x-4 text-sm font-medium">
+	<nav class="mt-8 flex space-x-8 border-b border-gray-200 text-base">
 		<a
 			href="/structure"
-			class="border-b-2 pb-1 transition-colors duration-200
+			class="-mb-px border-b-2 pb-2 transition-colors duration-200
             {pathname() === '/structure'
-				? 'border-blue-600 text-blue-600'
-				: 'border-transparent text-gray-500 hover:text-gray-700'}"
+				? 'border-[#1E1E9E] font-medium text-[#1E1E9E]'
+				: 'border-transparent text-gray-600 hover:text-gray-800'}"
 		>
-			Vue d’ensemble
+			Vue d'ensemble
 		</a>
 
 		<a
-			href="/structure/offres"
-			class="border-b-2 pb-1 transition-colors duration-200
+			href="/structure/offres-emplois"
+			class="-mb-px border-b-2 pb-2 transition-colors duration-200
             {pathname().startsWith('/structure/offres')
-				? 'border-blue-600 text-blue-600'
-				: 'border-transparent text-gray-500 hover:text-gray-700'}"
+				? 'border-[#1E1E9E] font-medium text-[#1E1E9E]'
+				: 'border-transparent text-gray-600 hover:text-gray-800'}"
 		>
 			Offres d'emplois
 		</a>
 
 		<a
-			href="/structure/services"
-			class="border-b-2 pb-1 transition-colors duration-200
+			href="/structure/services-insertion"
+			class="-mb-px border-b-2 pb-2 transition-colors duration-200
             {pathname().startsWith('/structure/services')
-				? 'border-blue-600 text-blue-600'
-				: 'border-transparent text-gray-500 hover:text-gray-700'}"
+				? 'border-[#1E1E9E] font-medium text-[#1E1E9E]'
+				: 'border-transparent text-gray-600 hover:text-gray-800'}"
 		>
 			Services d'insertion
 		</a>
 
 		<a
-			href="/structure/opportunites"
-			class="border-b-2 pb-1 transition-colors duration-200
-            {pathname().startsWith('/structure/opportunites')
-				? 'border-blue-600 text-blue-600'
-				: 'border-transparent text-gray-500 hover:text-gray-700'}"
+			href="/structure/opportunites-commerciales"
+			class="-mb-px border-b-2 pb-2 transition-colors duration-200
+            {pathname().startsWith('/structure/conventions')
+				? 'border-[#1E1E9E] font-medium text-[#1E1E9E]'
+				: 'border-transparent text-gray-600 hover:text-gray-800'}"
 		>
-			Opportunités commerciales
+		Opportunités commerciales
 		</a>
 	</nav>
 </header>
