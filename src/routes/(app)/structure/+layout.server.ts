@@ -1,0 +1,60 @@
+import { requestGristTable } from '$lib/server/grist';
+import type { Job } from '$lib/types/job';
+
+export async function load({ parent }) {
+	const { user, structure } = await parent();
+	const structureId = user.structureId;
+
+	// Récupérer les jobs (métiers en recherche d'emploi)
+	const jobsFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
+	const jobsRes = await requestGristTable('GET', 'Jobs', `records?filter=${jobsFilter}`);
+	const jobs: Job[] =
+		jobsRes.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
+			id: record.id,
+			title: (record.fields['Title'] as string) || '',
+			location: (record.fields['City'] as string) || '',
+			positions: (record.fields['Positions'] as number) || 1,
+			status: (record.fields['Status'] as string) === 'active' ? 'active' : 'inactive',
+			lastUpdate: new Date(
+				(record.fields['Updated_at'] as string) ||
+					(record.fields['Created_at'] as string) ||
+					Date.now()
+			).toLocaleDateString('fr-FR'),
+			description: record.fields['Description'] as string,
+			requirements: record.fields['Requirements'] as string,
+			createdAt: record.fields['Created_at'] as string
+		})) || [];
+
+	// Récupérer les services d'insertion
+	const servicesFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
+	const servicesRes = await requestGristTable(
+		'GET',
+		'Services',
+		`records?filter=${servicesFilter}`
+	);
+	const services =
+		servicesRes.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
+			id: record.id,
+			name: (record.fields['Name'] as string) || '',
+			status: (record.fields['Status'] as string) || 'inactive'
+		})) || [];
+
+	// Calculer les statistiques pour la vue d'ensemble
+	const activeJobs = jobs.filter((job) => job.status === 'active').length;
+	const inactiveJobs = jobs.filter((job) => job.status === 'inactive').length;
+	const activeServices = services.filter(
+		(service: { id: number; name: string; status: string }) => service.status === 'active'
+	).length;
+
+	return {
+		user,
+		structure,
+		jobs,
+		services,
+		stats: {
+			activeJobs,
+			inactiveJobs,
+			activeServices
+		}
+	};
+}
