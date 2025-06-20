@@ -2,6 +2,9 @@ export interface Service {
 	id: number;
 	name: string;
 	status: string;
+	perimeter: string;
+	lastUpdate: string;
+	synchronized: boolean;
 	description?: string;
 	createdAt?: string;
 	updatedAt?: string;
