@@ -73,7 +73,7 @@
 						<!-- Last updated -->
 						<div class="flex items-center gap-2 text-sm text-gray-600">
 							<i class="ri-time-line text-gray-400"></i>
-							<span>Actualisé il y a {service.lastUpdated}</span>
+							<span>Actualisé il y a {service.lastUpdate}</span>
 						</div>
 
 						<!-- Synchronization status -->

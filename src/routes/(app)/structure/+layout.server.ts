@@ -36,7 +36,14 @@ export async function load({ parent }) {
 		servicesRes.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
 			id: record.id,
 			name: (record.fields['Name'] as string) || '',
-			status: (record.fields['Status'] as string) || 'inactive'
+			status: (record.fields['Status'] as string) === 'published' ? 'PUBLIÉE' : 'BROUILLON',
+			perimeter: 'France entière', // Default for now, could be from service data
+			lastUpdate: new Date(
+				(record.fields['Updated_at'] as string) ||
+					(record.fields['Created_at'] as string) ||
+					Date.now()
+			).toLocaleDateString('fr-FR'),
+			synchronized: true // Default for now, could be from service data
 		})) || [];
 
 	// Calculer les statistiques pour la vue d'ensemble
