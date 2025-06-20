@@ -48,7 +48,7 @@ open http://localhost:5173
 ### Déploiement
 
 ```
-scalingo --region [osc-fr1|osc-secnum-fr1] --app [nexus-prod|nexus-staging] https://github.com/gip-inclusion/nexus/archive/refs/heads/main.tar.gz
+scalingo --region [osc-fr1|osc-secnum-fr1] --app [nexus-prod|nexus-staging] deploy https://github.com/gip-inclusion/nexus/archive/refs/heads/main.tar.gz
 ```
 
 > ⚠️ Assurez-vous d'avoir au préalable correctement défini les variables d'environnement nécessaires à la bonne excéution de l'application sur Scalingo.
