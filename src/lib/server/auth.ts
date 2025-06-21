@@ -1,6 +1,9 @@
 import { randomUUID } from 'crypto';
 import { sendEmail } from './mailer';
 import { requestGristTable } from './grist';
+import { NEXUS_BASE_URL } from '$env/static/private';
+
+const DEFAULT_NEXUS_BASE_URL = 'http://localhost:5173';
 
 const MAGIC_LINK_EXPIRATION_MINUTES = 60;
 
@@ -27,13 +30,13 @@ export async function generateMagicLink(email: string): Promise<string> {
 		]
 	});
 
-	console.log(token)
+	console.log(token);
 
 	return token;
 }
 
 export async function sendMagicEmail(email: string, token: string) {
-	const baseUrl = 'http://localhost:5173';
+	const baseUrl = NEXUS_BASE_URL?.trim() || DEFAULT_NEXUS_BASE_URL;
 	const magicLink = `${baseUrl}/auth/verify?token=${token}`;
 	const subject = 'Votre lien magique de connexion';
 	const body = `
