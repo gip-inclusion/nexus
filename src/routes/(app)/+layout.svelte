@@ -11,7 +11,6 @@
 		{ href: '/structure/opportunites-commerciales', label: "Opportunités commerciales" }
 	];
 	
-	
 </script>
 
 <div class="flex min-h-screen bg-gray-50 text-[#000638]">
