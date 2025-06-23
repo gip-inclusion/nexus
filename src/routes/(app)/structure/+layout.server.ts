@@ -44,7 +44,8 @@ export async function load({ parent }) {
 					(record.fields['Created_at'] as string) ||
 					Date.now()
 			).toLocaleDateString('fr-FR'),
-			synchronized: true // Default for now, could be from service data
+			synchronized: true, // Default for now, could be from service data
+			link: 'https://dora.inclusion.beta.gouv.fr/services/' + record.fields['Slug'] as string
 		})) || [];
 
 	// Récupérer les opportunités commerciales
@@ -83,7 +84,7 @@ export async function load({ parent }) {
 	const activeJobs = jobs.filter((job) => job.status === 'active').length;
 	const inactiveJobs = jobs.filter((job) => job.status === 'inactive').length;
 	const activeServices = services.filter(
-		(service: { id: number; name: string; status: string }) => service.status === 'active'
+		(service: { id: number; name: string; status: string }) => service.status === 'published'
 	).length;
 	const activeOpportunities = commercialOpportunities.filter(
 		(opp) => opp.status === 'active'

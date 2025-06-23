@@ -138,7 +138,10 @@
 					</div>
 
 					<!-- Service title -->
-					<h3 class="mb-2 text-lg font-semibold text-[#1E1E9E]">{service.name}</h3>
+					<!-- https://dora.inclusion.beta.gouv.fr/services/association-gutenber-mediation-numerique -->
+					<h3 class="mb-2 text-lg font-semibold text-[#1E1E9E]">
+					    <a href={service.link}>{service.name}</a> 
+					</h3>
 
 					<!-- Perimeter -->
 					<p class="mb-6 text-sm text-gray-600">
