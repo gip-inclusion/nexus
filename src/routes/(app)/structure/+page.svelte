@@ -1,6 +1,8 @@
 <script lang="ts">
-	export let data;
+	import showdown from 'showdown';
 
+	export let data;
+	
 	const structure = data.structure;
 	const { stats } = data;
 
@@ -19,6 +21,11 @@
 			return dateString;
 		}
 	};
+	
+	const converter = new showdown.Converter();
+
+	const presentationHtml = converter.makeHtml(structure.presentation || '');
+
 </script>
 
 <div>
@@ -67,55 +74,60 @@
 
 				<!-- Services d'insertion card -->
 				<div class="flex flex-col justify-between rounded-lg border border-[#5B12EB] p-4">
-				    <a href="/structure/services-insertion">	
-    				    <div class="flex items-center justify-between">
-    						<div class="flex items-center">
-    							<img
-    								src="/images/logo-dora.png"
-    								alt="Services d'insertion logo"
-    								style="width: 20px; height: 20px; margin-right: 5px;"
-    							/>
-    							<div>
-    								<h3 class="font-bold text-indigo-600" style="margin-bottom: 0;">
-    									Services d'insertion
-    								</h3>
-    								<p class="text-sm text-gray-500" style="margin-top: 0;">DORA</p>
-    							</div>
-    						</div>
-    					</div>
-    					<div class="mt-2 text-sm">
-    						<p>
-    							<span
-    								class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-50 font-bold text-indigo-700"
-    								>{stats.activeServices}</span
-    							> services d'insertion actifs
-    						</p>
-    					</div>
-				    </a>
+					<a href="/structure/services-insertion">
+						<div class="flex items-center justify-between">
+							<div class="flex items-center">
+								<img
+									src="/images/logo-dora.png"
+									alt="Services d'insertion logo"
+									style="width: 20px; height: 20px; margin-right: 5px;"
+								/>
+								<div>
+									<h3 class="font-bold text-indigo-600" style="margin-bottom: 0;">
+										Services d'insertion
+									</h3>
+									<p class="text-sm text-gray-500" style="margin-top: 0;">DORA</p>
+								</div>
+							</div>
+						</div>
+						<div class="mt-2 text-sm">
+							<p>
+								<span
+									class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-50 font-bold text-indigo-700"
+									>{stats.activeServices}</span
+								> services d'insertion actifs
+							</p>
+						</div>
+					</a>
 				</div>
 
 				<!-- Opportunités commerciales card -->
 				<div class="flex flex-col justify-between rounded-lg border border-[#FE5455] p-4">
-				    <a href="/structure/opportunites-commerciales">
-    				    <div style="display: flex; align-items: center;">
-    						<div class="flex items-center">
-    							<img
-    								src="/images/logo-marche.png"
-    								alt="Opportunités commerciales logo"
-    								style="width: 20px; height: 20px; margin-right: 5px;"
-    							/>
-    							<div>
-    								<h3 class="font-bold text-red-600" style="margin-bottom: 0;">
-    									Opportunités commerciales
-    								</h3>
-    								<p class="text-sm text-gray-500" style="margin-top: 0;">Le Marché de l'inclusion</p>
-    							</div>
-    						</div>
-    					</div>
-    					<div class="mt-2 text-sm">
-    						<p><span class="font-semibold text-red-700">{stats.activeOpportunities}</span> nouvelles opportunités</p>
-    					</div>
-				    </a>
+					<a href="/structure/opportunites-commerciales">
+						<div style="display: flex; align-items: center;">
+							<div class="flex items-center">
+								<img
+									src="/images/logo-marche.png"
+									alt="Opportunités commerciales logo"
+									style="width: 20px; height: 20px; margin-right: 5px;"
+								/>
+								<div>
+									<h3 class="font-bold text-red-600" style="margin-bottom: 0;">
+										Opportunités commerciales
+									</h3>
+									<p class="text-sm text-gray-500" style="margin-top: 0;">
+										Le Marché de l'inclusion
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="mt-2 text-sm">
+							<p>
+								<span class="font-semibold text-red-700">{stats.activeOpportunities}</span> nouvelles
+								opportunités
+							</p>
+						</div>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -144,7 +156,7 @@
 			<div class="w-2/3 pr-4">
 				<!-- Left column for description -->
 				<p class="text-sm leading-relaxed text-gray-700">
-					{structure.presentation}
+					{@html presentationHtml}
 				</p>
 			</div>
 			<div class="w-1/3 pl-4">

@@ -44,7 +44,7 @@ export async function load({ parent }) {
 					(record.fields['Created_at'] as string) ||
 					Date.now()
 			).toLocaleDateString('fr-FR'),
-			synchronized: true, // Default for now, could be from service data
+			synchronized: false, // Default for now, could be from service data
 			link: 'https://dora.inclusion.beta.gouv.fr/services/' + record.fields['Slug'] as string
 		})) || [];
 

@@ -43,11 +43,7 @@
 		// TODO: Implement edit functionality
 		console.log('Edit opportunity:', id);
 	};
-
-	const handleCreateOpportunity = () => {
-		// TODO: Implement create functionality
-		console.log('Create new opportunity');
-	};
+	
 </script>
 
 <div class="py-6">
