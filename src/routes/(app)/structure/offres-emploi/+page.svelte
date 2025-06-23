@@ -211,20 +211,6 @@
 			<p class="mb-4 text-gray-500">
 				Vous n'avez pas encore créé d'offres d'emploi. Commencez par créer votre première offre.
 			</p>
-			<button
-				onclick={createNewJob}
-				class="flex items-center gap-2 rounded-lg bg-[#1E1E9E] px-4 py-2 text-white transition-colors hover:bg-[#1E1E9E]/90"
-			>
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M12 4v16m8-8H4"
-					/>
-				</svg>
-				Créer une nouvelle fiche de poste
-			</button>
 		</div>
 	{/if}
 </div>
