@@ -167,7 +167,9 @@
 							<i class="ri-community-line text-xl text-blue-600"></i>
 						</div>
 						<div>
-							<h3 class="text-sm font-semibold">{structure.type || '-'}</h3>
+							{#if structure.type}
+						    <p class="text-sm font-semibold">{structure.type}</p>
+							{/if}
 							<p class="text-lg font-bold">{structure.name || '-'}</p>
 						</div>
 					</div>

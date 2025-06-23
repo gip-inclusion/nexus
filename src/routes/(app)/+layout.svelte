@@ -24,7 +24,9 @@
 						<i class="ri-community-line text-xl text-white"></i>
 					</div>
 					<div>
-						<p class="text-sm font-normal text-[#0B0B45]">{data.structure.type || '-'}</p>
+					{#if data.structure.type}
+					<p class="text-sm font-normal text-[#0B0B45]">{data.structure.type}</p>
+					{/if}
 						<p class="text-base font-bold text-[#0B0B45]">{data.structure.name || '-'}</p>
 					</div>
 				</div>
