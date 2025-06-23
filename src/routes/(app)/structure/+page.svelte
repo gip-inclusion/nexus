@@ -113,7 +113,7 @@
     						</div>
     					</div>
     					<div class="mt-2 text-sm">
-    						<p><span class="font-semibold text-red-700">2</span> nouvelles opportunités</p>
+    						<p><span class="font-semibold text-red-700">{stats.activeOpportunities}</span> nouvelles opportunités</p>
     					</div>
 				    </a>
 				</div>
