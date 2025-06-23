@@ -153,12 +153,12 @@
 
 		<!-- Row for Description and Contact Info Block -->
 		<div class="flex justify-between">
-			<div class="w-2/3 pr-4">
-				<!-- Left column for description -->
-				<p class="text-sm leading-relaxed text-gray-700">
-					{@html presentationHtml}
-				</p>
+		<div class="w-2/3 pr-4">
+			<!-- Left column for description -->
+			<div class="text-sm leading-relaxed text-gray-700 space-y-4">
+				{@html presentationHtml}
 			</div>
+		</div>
 			<div class="w-1/3 pl-4">
 				<!-- Right column for Contact Info Block -->
 				<div class="rounded-lg border border-gray-200 p-4">
