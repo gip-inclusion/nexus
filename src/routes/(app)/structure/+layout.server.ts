@@ -84,7 +84,7 @@ export async function load({ parent }) {
 	const activeJobs = jobs.filter((job) => job.status === 'active').length;
 	const inactiveJobs = jobs.filter((job) => job.status === 'inactive').length;
 	const activeServices = services.filter(
-		(service: { id: number; name: string; status: string }) => service.status === 'published'
+		(service: { id: number; name: string; status: string }) => service.status === 'PUBLIÉE'
 	).length;
 	const activeOpportunities = commercialOpportunities.filter(
 		(opp) => opp.status === 'active'
