@@ -31,18 +31,11 @@
 		console.log('Status change:', serviceId, newStatus);
 		closeAllDropdowns();
 	}
-
-	function handleActionMenu(serviceId: number) {
-		// Handle action menu
-		console.log('Action menu:', serviceId);
-	}
 </script>
 
-<svelte:window onclick={closeAllDropdowns} />
-
-<div class="py-6">
-    <div class="mb-8 flex items-center justify-between">
-		<h1 class="text-3xl font-bold text-[#1E1E9E]">Services d'insertion</h1>
+<div>
+	<div class="mb-8 flex items-center justify-between">
+		<h1 class="text-2xl font-semibold">Services d'insertion</h1>
 		<div class="flex gap-4">
 			<a
 				href="https://dora.inclusion.beta.gouv.fr/structures/slug"
@@ -146,37 +139,20 @@
 						{/if}
 					</div>
 
-					<!-- Service title -->
 					<!-- https://dora.inclusion.beta.gouv.fr/services/association-gutenber-mediation-numerique -->
 					<h3 class="mb-2 text-lg font-semibold text-[#1E1E9E]">
 					    <a href={service.link}>{service.name}</a> 
 					</h3>
 
-					<!-- Perimeter -->
 					<p class="mb-6 text-sm text-gray-600">
 						Périmètre : {service.perimeter}
 					</p>
 
-					<!-- Light gray separation line -->
 					<div class="mb-6 border-t border-gray-200"></div>
 
-					<!-- Status indicators -->
 					<div class="space-y-3">
-						<!-- Last updated -->
 						<div class="flex items-center gap-2 text-sm text-gray-600">
-							<svg
-								class="h-4 w-4 text-gray-400"
-								fill="none"
-								stroke="currentColor"
-								viewBox="0 0 24 24"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-								/>
-							</svg>
+						    <i class="ri-time-line text-xl"></i>
 							<span>Actualisé le {service.lastUpdate}</span>
 						</div>
 

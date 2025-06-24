@@ -11,9 +11,9 @@
 	}
 </script>
 
-<div class="py-6">
+<div>
 	<div class="mb-8 flex items-center justify-between">
-		<h1 class="text-3xl font-bold text-[#1E1E9E]">Offres d'emplois</h1>
+		<h1 class="text-2xl font-semibold">Offres d'emplois</h1>
 		<div class="flex gap-4">
 			<a
 				href="https://emplois.inclusion.beta.gouv.fr/company/job_description_list"
@@ -71,25 +71,7 @@
 							</td>
 							<td class="px-6 py-4 whitespace-nowrap">
 								<div class="flex items-center gap-2 text-gray-600">
-									<svg
-										class="h-4 w-4 text-gray-400"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-										/>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-										/>
-									</svg>
+								    <i class="ri-map-pin-2-line text-xl"></i>
 									{job.location}
 								</div>
 							</td>

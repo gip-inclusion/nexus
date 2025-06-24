@@ -36,9 +36,9 @@
 
 </script>
 
-<div class="py-6">
-    <div class="mb-8 flex items-center justify-between">
-		<h1 class="text-3xl font-bold text-[#1E1E9E]">Opportunités commerciales</h1>
+<div>
+	<div class="mb-8 flex items-center justify-between">
+		<h1 class="text-2xl font-semibold">Opportunités commerciales</h1>
 		<div class="flex gap-4">
 			<a
 				href="https://lemarche.inclusion.beta.gouv.fr/besoins"
