@@ -5,26 +5,6 @@
 
 	const { jobs } = data;
 
-	function toggleApplications() {
-		// Logic to block/unblock applications
-		console.log('Toggle applications');
-	}
-
-	function createNewJob() {
-		// Logic to create new job posting
-		console.log('Create new job');
-	}
-
-	function refreshJob(jobId: number) {
-		// Logic to refresh job posting
-		console.log('Refresh job:', jobId);
-	}
-
-	function deleteJob(jobId: number) {
-		// Logic to delete job posting
-		console.log('Delete job:', jobId);
-	}
-
 	function toggleJobStatus(jobId: number, currentStatus: string) {
 		// Logic to toggle job status
 		console.log('Toggle job status:', jobId, currentStatus);
@@ -35,31 +15,14 @@
 	<div class="mb-8 flex items-center justify-between">
 		<h1 class="text-3xl font-bold text-[#1E1E9E]">Offres d'emplois</h1>
 		<div class="flex gap-4">
-			<button
-				onclick={toggleApplications}
-				class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 transition-colors hover:bg-gray-50"
-			>
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
-					<circle cx="12" cy="16" r="1"></circle>
-					<path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-				</svg>
-				Bloquer l'envoi de candidatures
-			</button>
-			<button
-				onclick={createNewJob}
+			<a
+				href="https://emplois.inclusion.beta.gouv.fr/company/job_description_list"
 				class="flex items-center gap-2 rounded-lg bg-[#1E1E9E] px-4 py-2 text-white transition-colors hover:bg-[#1E1E9E]/90"
+				target="_blank"
 			>
-				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M12 4v16m8-8H4"
-					/>
-				</svg>
-				Créer une nouvelle fiche de poste
-			</button>
+				<i class="ri-add-line text-xl text-white-600"></i>
+				Modifier
+			</a>
 		</div>
 	</div>
 
@@ -92,9 +55,6 @@
 							class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
 						>
 							Dernière mise à jour
-						</th>
-						<th class="relative px-6 py-3">
-							<span class="sr-only">Actions</span>
 						</th>
 					</tr>
 				</thead>
@@ -138,11 +98,12 @@
 							</td>
 							<td class="px-6 py-4 whitespace-nowrap">
 								<div class="flex items-center gap-3">
-									<label class="relative inline-flex cursor-pointer items-center">
+									<label class="relative inline-flex items-center">
 										<input
 											type="checkbox"
 											class="peer sr-only"
 											checked={job.status === 'active'}
+											disabled
 											onchange={() => toggleJobStatus(job.id, job.status)}
 										/>
 										<div
@@ -156,38 +117,6 @@
 							</td>
 							<td class="px-6 py-4 whitespace-nowrap text-gray-500">
 								{job.lastUpdate}
-							</td>
-							<td class="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
-								<div class="flex gap-2">
-									<button
-										onclick={() => refreshJob(job.id)}
-										class="rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-										title="Actualiser"
-									>
-										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												stroke-width="2"
-												d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-											/>
-										</svg>
-									</button>
-									<button
-										onclick={() => deleteJob(job.id)}
-										class="rounded-md p-2 text-gray-400 hover:bg-red-50 hover:text-red-600"
-										title="Supprimer"
-									>
-										<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
-												stroke-width="2"
-												d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-											/>
-										</svg>
-									</button>
-								</div>
 							</td>
 						</tr>
 					{/each}

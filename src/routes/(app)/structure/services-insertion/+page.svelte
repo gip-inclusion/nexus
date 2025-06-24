@@ -41,9 +41,18 @@
 <svelte:window onclick={closeAllDropdowns} />
 
 <div class="py-6">
-	<!-- Header with title and add button -->
-	<div class="mb-8 flex items-center justify-between">
+    <div class="mb-8 flex items-center justify-between">
 		<h1 class="text-3xl font-bold text-[#1E1E9E]">Services d'insertion</h1>
+		<div class="flex gap-4">
+			<a
+				href="https://dora.inclusion.beta.gouv.fr/structures/slug"
+				class="flex items-center gap-2 rounded-lg bg-[#1E1E9E] px-4 py-2 text-white transition-colors hover:bg-[#1E1E9E]/90"
+				target="_blank"
+			>
+				<i class="ri-add-line text-xl text-white-600"></i>
+				Modifier
+			</a>
+		</div>
 	</div>
 
 	<!-- Services grid -->

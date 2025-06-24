@@ -49,7 +49,7 @@ export async function load({ url, cookies }) {
     const firstStructureId = resMemberships.records[0].fields['Structure'];
 
     // Créer le cookie de session
-    const serializedSession = await createSession({
+    const serializedSession = createSession({
         accountId: accountRecord['id'],
         email: accountRecord['Email'], 
         token: tokenRecord.fields['Token'], 
