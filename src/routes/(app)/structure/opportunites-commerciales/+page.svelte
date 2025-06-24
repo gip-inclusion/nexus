@@ -34,16 +34,6 @@
 		return diffDays <= 30 && diffDays > 0;
 	};
 
-	const handleDeleteOpportunity = (id: number) => {
-		// TODO: Implement delete functionality
-		console.log('Delete opportunity:', id);
-	};
-
-	const handleEditOpportunity = (id: number) => {
-		// TODO: Implement edit functionality
-		console.log('Edit opportunity:', id);
-	};
-	
 </script>
 
 <div class="py-6">

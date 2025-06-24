@@ -200,21 +200,6 @@
 							</div>
 						{/if}
 					</div>
-
-					<!-- Action menu (three dots) -->
-					<div class="absolute top-4 right-4">
-						<button
-							onclick={() => handleActionMenu(service.id)}
-							class="rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-							aria-label="Actions du service"
-						>
-							<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-								<path
-									d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
-								/>
-							</svg>
-						</button>
-					</div>
 				</div>
 			{/each}
 		</div>
