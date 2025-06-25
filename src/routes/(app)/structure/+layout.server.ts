@@ -1,4 +1,4 @@
-import { StructureRepositoryGrist, type Service } from '$lib/server/structure';
+import { serviceRepository, type Service } from '$lib/server/service';
 import type { Job } from '$lib/types/job';
 import type { CommercialOpportunity } from '$lib/types/commercial-opportunity';
 import { gristClient } from '$lib/server/grist.js';
@@ -32,8 +32,7 @@ export async function load({ parent }) {
 		})) || [];
 
 	// Récupérer les services d'insertion
-	const structureRepository = new StructureRepositoryGrist(gristClient);
-	const services: Service[] = await structureRepository.getServiceByStructureId(structureId);
+	const services: Service[] = await serviceRepository.getServiceByStructureId(structureId);
 
 	// Récupérer les opportunités commerciales
 	const opportunitiesFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));

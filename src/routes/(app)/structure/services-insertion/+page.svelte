@@ -26,7 +26,7 @@
 		console.log('Add service clicked');
 	}
 
-	function handleStatusChange(serviceId: number, newStatus: string) {
+	function handleStatusChange(serviceId: string, newStatus: string) {
 		// Handle status change
 		console.log('Status change:', serviceId, newStatus);
 		closeAllDropdowns();
@@ -153,7 +153,7 @@
 					<div class="space-y-3">
 						<div class="flex items-center gap-2 text-sm text-gray-600">
 						    <i class="ri-time-line text-xl"></i>
-							<span>Actualisé le {service.lastUpdate}</span>
+							<span>Actualisé le {service.lastUpdate?.toLocaleDateString('fr-FR')}</span>
 						</div>
 
 						<!-- Synchronization status -->
