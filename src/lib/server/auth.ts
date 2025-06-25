@@ -30,8 +30,6 @@ export async function generateMagicLink(email: string): Promise<string> {
 		]
 	});
 
-	console.log(token);
-
 	return token;
 }
 

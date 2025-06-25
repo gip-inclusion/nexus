@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import nodemailer, { type Transporter } from 'nodemailer';
 
 import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD } from '$env/static/private';
 
@@ -7,20 +7,10 @@ export interface Mailer {
 }
 
 export class MailerSMTP implements Mailer {
-	private _transporter;
+	constructor(readonly transporter: Transporter) {}
 
-	constructor() {
-		this._transporter = nodemailer.createTransport({
-			host: SMTP_HOST,
-			port: parseInt(SMTP_PORT),
-			auth: {
-				user: SMTP_USER,
-				pass: SMTP_PASSWORD
-			}
-		});
-	}
 	async sendEmail(to: string, subject: string, text: string) {
-		await this._transporter.sendMail({
+		await this.transporter.sendMail({
 			from: 'noreply@inclusion.gouv.fr',
 			to,
 			subject,
@@ -29,4 +19,13 @@ export class MailerSMTP implements Mailer {
 	}
 }
 
-export const mailer = new MailerSMTP();
+const transporter = nodemailer.createTransport({
+	host: SMTP_HOST,
+	port: parseInt(SMTP_PORT),
+	auth: {
+		user: SMTP_USER,
+		pass: SMTP_PASSWORD
+	}
+});
+
+export const mailer = new MailerSMTP(transporter);
