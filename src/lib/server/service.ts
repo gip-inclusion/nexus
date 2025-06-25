@@ -15,21 +15,21 @@ export class Service {
 }
 
 export interface ServiceRepository {
-	listServicesByStructureId(id: string): Promise<Service[]>;
+	listServicesByStructureId(structureId: string): Promise<Service[]>;
 }
 
 export class ServiceRepositoryGrist implements ServiceRepository {
 	constructor(readonly gristClient: GristClient) {}
 
 	async listServicesByStructureId(structureId: string): Promise<Service[]> {
-		const servicesFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
-		const servicesRes = await this.gristClient.requestGristTable(
+		const filter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
+		const data = await this.gristClient.requestGristTable(
 			'GET',
 			'Services',
-			`records?filter=${servicesFilter}`
+			`records?filter=${filter}`
 		);
 		const services: Service[] =
-			servicesRes.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
+			data.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
 				id: String(record.id),
 				name: (record.fields['Name'] as string) || '',
 				status: (record.fields['Status'] as string) === 'PUBLISHED' ? 'PUBLIÉE' : 'BROUILLON',

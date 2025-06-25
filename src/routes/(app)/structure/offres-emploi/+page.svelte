@@ -4,11 +4,6 @@
 	let { data }: { data: PageData } = $props();
 
 	const { jobs } = data;
-
-	function toggleJobStatus(jobId: number, currentStatus: string) {
-		// Logic to toggle job status
-		console.log('Toggle job status:', jobId, currentStatus);
-	}
 </script>
 
 <div>
@@ -84,21 +79,20 @@
 										<input
 											type="checkbox"
 											class="peer sr-only"
-											checked={job.status === 'active'}
+											checked={job.status === 'OUVERT'}
 											disabled
-											onchange={() => toggleJobStatus(job.id, job.status)}
 										/>
 										<div
 											class="peer h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-[#1E1E9E] peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"
 										></div>
 									</label>
 									<span class="text-sm font-medium text-gray-900">
-										{job.status === 'active' ? 'Ouvert' : 'Fermé'}
+										{job.status === 'OUVERT' ? 'Ouvert' : 'Fermé'}
 									</span>
 								</div>
 							</td>
 							<td class="px-6 py-4 whitespace-nowrap text-gray-500">
-								{job.lastUpdate}
+								{job.lastUpdate?.toLocaleDateString('fr-FR')}
 							</td>
 						</tr>
 					{/each}

@@ -1,37 +1,13 @@
-import { serviceRepository, type Service } from '$lib/server/service';
-import type { Job } from '$lib/types/job';
 import type { CommercialOpportunity } from '$lib/types/commercial-opportunity';
 import { gristClient } from '$lib/server/grist.js';
+import { jobRepository, type Job } from '$lib/server/job';
+import { serviceRepository, type Service } from '$lib/server/service';
 
 export async function load({ parent }) {
 	const { user, structure } = await parent();
 	const structureId = user.structureId;
 
-	// Récupérer les jobs (métiers en recherche d'emploi)
-	const jobsFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
-	const jobsRes = await gristClient.requestGristTable(
-		'GET',
-		'Jobs',
-		`records?filter=${jobsFilter}`
-	);
-	const jobs: Job[] =
-		jobsRes.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
-			id: record.id,
-			title: (record.fields['Title'] as string) || '',
-			location: (record.fields['City'] as string) || '',
-			positions: (record.fields['Positions'] as number) || 1,
-			status: (record.fields['Status'] as string) === 'active' ? 'active' : 'inactive',
-			lastUpdate: new Date(
-				(record.fields['Updated_at'] as string) ||
-					(record.fields['Created_at'] as string) ||
-					Date.now()
-			).toLocaleDateString('fr-FR'),
-			description: record.fields['Description'] as string,
-			requirements: record.fields['Requirements'] as string,
-			createdAt: record.fields['Created_at'] as string
-		})) || [];
-
-	// Récupérer les services d'insertion
+  const jobs: Job[] = await jobRepository.listJobsByStructureId(structureId);
 	const services: Service[] = await serviceRepository.listServicesByStructureId(structureId);
 
 	// Récupérer les opportunités commerciales
