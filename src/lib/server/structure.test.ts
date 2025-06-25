@@ -72,26 +72,25 @@ describe('StructureRepositoryGrist', () => {
 		const actual: Service[] = await repository.getServiceByStructureId(structureId);
 
 		// then
-		const expected: Service[] = [
-			{
-				id: '1',
-				name: 'Les emplois de l’inclusion',
-				status: 'BROUILLON',
-				perimeter: 'France entière',
-				lastUpdate: new Date('2025-01-27T16:11:22.091825+01:00'),
-				synchronized: false,
-				link: 'https://dora.inclusion.beta.gouv.fr/services/plateforme-de-linclu-les-emplois-de-lincl'
-			},
-			{
-				id: '2',
-				name: 'Immersion Facilitée',
-				status: 'PUBLIÉE',
-				perimeter: 'France entière',
-				lastUpdate: new Date('2025-01-27T16:11:22.091825+01:00'),
-				synchronized: false,
-				link: 'https://dora.inclusion.beta.gouv.fr/services/plateforme-de-linclu-immersion-facilitee'
-			}
-		];
+    const service1 = new Service();
+		service1.id = '1';
+		service1.name = 'Les emplois de l’inclusion';
+		service1.status = 'BROUILLON';
+		service1.perimeter = 'France entière';
+		service1.lastUpdate = new Date('2025-01-27T16:11:22.091825+01:00');
+		service1.synchronized = false;
+		service1.link = 'https://dora.inclusion.beta.gouv.fr/services/plateforme-de-linclu-les-emplois-de-lincl';
+
+    const service2 = new Service(); 
+    service2.id = '2';
+		service2.name = 'Immersion Facilitée';
+		service2.status = 'PUBLIÉE';
+		service2.perimeter = 'France entière';
+		service2.lastUpdate = new Date('2025-01-27T16:11:22.091825+01:00');
+		service2.synchronized = false;
+		service2.link = 'https://dora.inclusion.beta.gouv.fr/services/plateforme-de-linclu-immersion-facilitee'; 
+  
+    const expected: Service[] = [service1, service2];
 		expect(actual).toEqual(expected);
 	});
 });
