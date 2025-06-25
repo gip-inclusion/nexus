@@ -15,13 +15,13 @@ export class Service {
 }
 
 export interface ServiceRepository {
-	getServiceByStructureId(id: string): Promise<Service[]>;
+	listServicesByStructureId(id: string): Promise<Service[]>;
 }
 
 export class ServiceRepositoryGrist implements ServiceRepository {
 	constructor(readonly gristClient: GristClient) {}
 
-	async getServiceByStructureId(structureId: string): Promise<Service[]> {
+	async listServicesByStructureId(structureId: string): Promise<Service[]> {
 		const servicesFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
 		const servicesRes = await this.gristClient.requestGristTable(
 			'GET',

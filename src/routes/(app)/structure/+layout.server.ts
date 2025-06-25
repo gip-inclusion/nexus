@@ -32,7 +32,7 @@ export async function load({ parent }) {
 		})) || [];
 
 	// Récupérer les services d'insertion
-	const services: Service[] = await serviceRepository.getServiceByStructureId(structureId);
+	const services: Service[] = await serviceRepository.listServicesByStructureId(structureId);
 
 	// Récupérer les opportunités commerciales
 	const opportunitiesFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));

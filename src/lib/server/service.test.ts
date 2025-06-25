@@ -24,7 +24,7 @@ describe('ServiceRepositoryGrist', () => {
 		const structureId = 'structure_id';
 
 		// when
-		await repository.getServiceByStructureId(structureId);
+		await repository.listServicesByStructureId(structureId);
 
 		// then
 		expect(requestGristTable).toHaveBeenCalledWith(
@@ -69,7 +69,7 @@ describe('ServiceRepositoryGrist', () => {
 		const structureId = 'structure_id';
 
 		// when
-		const actual: Service[] = await repository.getServiceByStructureId(structureId);
+		const actual: Service[] = await repository.listServicesByStructureId(structureId);
 
 		// then
     const service1 = new Service();
@@ -106,7 +106,7 @@ describe('Service', () => {
     // then
     expect(service.isActive).toBe(true);
 	});
-	it('isActive should return `true` if status is "PUBLIÉE"', () => {
+	it('isActive should return `false` if status is not "PUBLIÉE"', () => {
  // given
     const service = new Service();
     
