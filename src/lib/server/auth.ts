@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { sendEmail } from './mailer';
+import { mailer } from './mailer';
 import { gristClient } from './grist';
 import { NEXUS_BASE_URL } from '$env/static/private';
 
@@ -51,5 +51,5 @@ Ce lien expirera dans ${MAGIC_LINK_EXPIRATION_MINUTES} minutes.
 Si vous n'avez pas demandé ce lien, ignorez simplement ce message.
 `;
 
-	await sendEmail(email, subject, body);
+	await mailer.sendEmail(email, subject, body);
 }
