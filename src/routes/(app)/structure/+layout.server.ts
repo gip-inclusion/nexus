@@ -1,14 +1,14 @@
 import type { CommercialOpportunity } from '$lib/types/commercial-opportunity';
 import { gristClient } from '$lib/server/grist.js';
-import { jobRepository, type Job } from '$lib/server/job';
-import { serviceRepository, type Service } from '$lib/server/service';
+import { jobRepository } from '$lib/server/job';
+import { serviceRepository } from '$lib/server/service';
 
 export async function load({ parent }) {
 	const { user, structure } = await parent();
 	const structureId = user.structureId;
 
-  const jobs: Job[] = await jobRepository.listJobsByStructureId(structureId);
-	const services: Service[] = await serviceRepository.listServicesByStructureId(structureId);
+	const jobs = (await jobRepository.listJobsByStructureId(structureId)).map(job => job.toJSON());
+	const services = (await serviceRepository.listServicesByStructureId(structureId)).map(service => service.toJSON());
 
 	// Récupérer les opportunités commerciales
 	const opportunitiesFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
@@ -43,8 +43,8 @@ export async function load({ parent }) {
 		})) || [];
 
 	// Calculer les statistiques pour la vue d'ensemble
-	const activeJobs = jobs.filter((job) => job.status === 'active').length;
-	const inactiveJobs = jobs.filter((job) => job.status === 'inactive').length;
+	const activeJobs = jobs.filter((job) => job.isActive).length;
+	const inactiveJobs = jobs.filter((job) => !job.isActive).length;
 	const activeServices = services.filter((service) => service.isActive).length;
 	const activeOpportunities = commercialOpportunities.filter(
 		(opp) => opp.status === 'active'

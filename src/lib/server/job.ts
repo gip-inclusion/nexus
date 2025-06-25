@@ -9,6 +9,24 @@ export class Job {
 	lastUpdate?: Date;
 	description?: string;
 	requirements?: string;
+
+	get isActive(): boolean {
+		return this.status === 'OUVERT';
+	}
+
+	toJSON() {
+		return {
+			id: this.id,
+			title: this.title,
+			location: this.location,
+			positions: this.positions,
+			status: this.status,
+			lastUpdate: this.lastUpdate?.toLocaleDateString('fr-FR'),
+			description: this.description,
+			requirements: this.requirements,
+			isActive: this.isActive
+		};
+	}
 }
 
 export interface JobRepository {
@@ -26,16 +44,24 @@ export class JobRepositoryGrist implements JobRepository {
 			`records?filter=${filter}`
 		);
 		const jobs: Job[] =
-			data.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
-				id: String(record.id),
-				title: (record.fields['Title'] as string) || '',
-				location: record.fields['City'] as string,
-				positions: record.fields['Positions'] as string,
-				status: (record.fields['Status'] as string) === 'OPEN' ? 'OUVERT' : 'FERMÉ',
-				lastUpdate: record.fields['Updated_at'] ? new Date(record.fields['Updated_at'] as string) : undefined,
-				description: record.fields['Description'] as string,
-				requirements: record.fields['Requirements'] as string
-			})) || [];
+			data.records?.map((record: { id: number; fields: Record<string, unknown> }) => {
+				const job = new Job();
+
+				job.id = String(record.id);
+				job.title = (record.fields['Title'] as string) || '';
+				job.location = record.fields['City'] as string;
+				job.positions = record.fields['Positions']
+					? parseInt(record.fields['Positions'] as string)
+					: undefined;
+				job.status = (record.fields['Status'] as string) === 'OPEN' ? 'OUVERT' : 'FERMÉ';
+				job.lastUpdate = record.fields['Updated_at']
+					? new Date(record.fields['Updated_at'] as string)
+					: undefined;
+				job.description = record.fields['Description'] as string;
+				job.requirements = record.fields['Requirements'] as string;
+
+				return job;
+			}) || [];
 		return jobs;
 	}
 }

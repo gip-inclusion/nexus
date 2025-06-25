@@ -47,8 +47,10 @@ describe('JobRepositoryGrist', () => {
 							City: 'Grenoble',
 							Positions: 1,
 							Updated_at: '2025-01-27T16:11:22.091825+01:00',
-							Description: 'Ce poste implique la gestion d’une équipe de mécaniciens, la planification des interventions, le suivi des réparations et l’assurance de la qualité du service.',
-							Requirements: 'Expérience confirmée en mécanique automobile, compétences managériales, sens des responsabilités et permis B.',
+							Description:
+								'Ce poste implique la gestion d’une équipe de mécaniciens, la planification des interventions, le suivi des réparations et l’assurance de la qualité du service.',
+							Requirements:
+								'Expérience confirmée en mécanique automobile, compétences managériales, sens des responsabilités et permis B.'
 						}
 					},
 					{
@@ -59,8 +61,10 @@ describe('JobRepositoryGrist', () => {
 							City: 'Saint Martin d’Hères',
 							Positions: 3,
 							Updated_at: '2025-04-27T17:11:22.091825+01:00',
-							Description: 'Ce poste consiste à diagnostiquer les pannes, effectuer les réparations et l’entretien courant des véhicules, ainsi qu’à conseiller les clients sur les travaux à prévoir.',
-							Requirements: 'CAP ou BEP en mécanique automobile, rigueur, autonomie et esprit d’équipe.',
+							Description:
+								'Ce poste consiste à diagnostiquer les pannes, effectuer les réparations et l’entretien courant des véhicules, ainsi qu’à conseiller les clients sur les travaux à prévoir.',
+							Requirements:
+								'CAP ou BEP en mécanique automobile, rigueur, autonomie et esprit d’équipe.'
 						}
 					}
 				]
@@ -83,8 +87,10 @@ describe('JobRepositoryGrist', () => {
 		job1.positions = 1;
 		job1.status = 'OUVERT';
 		job1.lastUpdate = new Date('2025-01-27T16:11:22.091825+01:00');
-		job1.description = 'Ce poste implique la gestion d’une équipe de mécaniciens, la planification des interventions, le suivi des réparations et l’assurance de la qualité du service.';
-		job1.requirements = 'Expérience confirmée en mécanique automobile, compétences managériales, sens des responsabilités et permis B.';
+		job1.description =
+			'Ce poste implique la gestion d’une équipe de mécaniciens, la planification des interventions, le suivi des réparations et l’assurance de la qualité du service.';
+		job1.requirements =
+			'Expérience confirmée en mécanique automobile, compétences managériales, sens des responsabilités et permis B.';
 
 		const job2 = new Job();
 		job2.id = '2';
@@ -93,10 +99,35 @@ describe('JobRepositoryGrist', () => {
 		job2.positions = 3;
 		job2.status = 'FERMÉ';
 		job2.lastUpdate = new Date('2025-04-27T17:11:22.091825+01:00');
-		job2.description = 'Ce poste consiste à diagnostiquer les pannes, effectuer les réparations et l’entretien courant des véhicules, ainsi qu’à conseiller les clients sur les travaux à prévoir.';
-		job2.requirements = 'CAP ou BEP en mécanique automobile, rigueur, autonomie et esprit d’équipe.';
+		job2.description =
+			'Ce poste consiste à diagnostiquer les pannes, effectuer les réparations et l’entretien courant des véhicules, ainsi qu’à conseiller les clients sur les travaux à prévoir.';
+		job2.requirements =
+			'CAP ou BEP en mécanique automobile, rigueur, autonomie et esprit d’équipe.';
 
 		const expected: Job[] = [job1, job2];
 		expect(actual).toEqual(expected);
+	});
+});
+
+describe('Job', () => {
+	it('isActive should return `true` if status is "OUVERT"', () => {
+		// given
+		const job = new Job();
+
+		// when
+		job.status = 'OUVERT';
+
+		// then
+		expect(job.isActive).toBe(true);
+	});
+	it('isActive should return `false` if status is "FERMÉ"', () => {
+		// given
+		const job = new Job();
+
+		// when
+		job.status = 'FERMÉ';
+
+		// then
+		expect(job.isActive).toBe(false);
 	});
 });

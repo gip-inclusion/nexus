@@ -12,6 +12,19 @@ export class Service {
 	get isActive() {
 		return this.status === 'PUBLIÉE';
 	}
+
+	toJSON() {
+		return {
+			id: this.id,
+			name: this.name,
+			status: this.status,
+			perimeter: this.perimeter,
+			lastUpdate: this.lastUpdate?.toLocaleDateString('fr-FR'),
+			synchronized: this.synchronized,
+			link: this.link,
+			isActive: this.isActive
+		};
+	}
 }
 
 export interface ServiceRepository {
@@ -29,19 +42,23 @@ export class ServiceRepositoryGrist implements ServiceRepository {
 			`records?filter=${filter}`
 		);
 		const services: Service[] =
-			data.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
-				id: String(record.id),
-				name: (record.fields['Name'] as string) || '',
-				status: (record.fields['Status'] as string) === 'PUBLISHED' ? 'PUBLIÉE' : 'BROUILLON',
-				perimeter: 'France entière', // Default for now, could be from service data
-				lastUpdate: new Date(
+			data.records?.map((record: { id: number; fields: Record<string, unknown> }) => {
+				const service = new Service();
+				service.id = String(record.id);
+				service.name = (record.fields['Name'] as string) || '';
+				service.status =
+					(record.fields['Status'] as string) === 'PUBLISHED' ? 'PUBLIÉE' : 'BROUILLON';
+				service.perimeter = 'France entière';
+				service.lastUpdate = new Date(
 					(record.fields['Updated_at'] as string) ||
 						(record.fields['Created_at'] as string) ||
 						Date.now()
-				),
-				synchronized: false,
-				link: ('https://dora.inclusion.beta.gouv.fr/services/' + record.fields['Slug']) as string
-			})) || [];
+				);
+				service.synchronized = false;
+				service.link = ('https://dora.inclusion.beta.gouv.fr/services/' +
+					record.fields['Slug']) as string;
+				return service;
+			}) || [];
 
 		return services;
 	}

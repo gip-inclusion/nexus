@@ -42,7 +42,7 @@
 				class="flex items-center gap-2 rounded-lg bg-[#1E1E9E] px-4 py-2 text-white transition-colors hover:bg-[#1E1E9E]/90"
 				target="_blank"
 			>
-				<i class="ri-add-line text-xl text-white-600"></i>
+				<i class="ri-add-line text-white-600 text-xl"></i>
 				Modifier
 			</a>
 		</div>
@@ -95,10 +95,8 @@
 						{#if openDropdowns.has(service.id)}
 							<div
 								class="absolute top-full left-0 z-20 mt-1 min-w-[140px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
-								onclick={(e) => e.stopPropagation()}
 							>
 								<button
-									onclick={() => handleStatusChange(service.id, 'PUBLIÉE')}
 									class="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[#1E1E9E] hover:bg-gray-50"
 								>
 									<svg
@@ -141,7 +139,7 @@
 
 					<!-- https://dora.inclusion.beta.gouv.fr/services/association-gutenber-mediation-numerique -->
 					<h3 class="mb-2 text-lg font-semibold text-[#1E1E9E]">
-					    <a href={service.link}>{service.name}</a> 
+						<a href={service.link}>{service.name}</a>
 					</h3>
 
 					<p class="mb-6 text-sm text-gray-600">
@@ -152,8 +150,8 @@
 
 					<div class="space-y-3">
 						<div class="flex items-center gap-2 text-sm text-gray-600">
-						    <i class="ri-time-line text-xl"></i>
-							<span>Actualisé le {service.lastUpdate?.toLocaleDateString('fr-FR')}</span>
+							<i class="ri-time-line text-xl"></i>
+							<span>Actualisé le {service.lastUpdate}</span>
 						</div>
 
 						<!-- Synchronization status -->

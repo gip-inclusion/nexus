@@ -79,7 +79,7 @@
 										<input
 											type="checkbox"
 											class="peer sr-only"
-											checked={job.status === 'OUVERT'}
+											checked={job.isActive}
 											disabled
 										/>
 										<div
@@ -87,12 +87,12 @@
 										></div>
 									</label>
 									<span class="text-sm font-medium text-gray-900">
-										{job.status === 'OUVERT' ? 'Ouvert' : 'Fermé'}
+										{job.isActive ? 'Ouvert' : 'Fermé'}
 									</span>
 								</div>
 							</td>
 							<td class="px-6 py-4 whitespace-nowrap text-gray-500">
-								{job.lastUpdate?.toLocaleDateString('fr-FR')}
+								{job.lastUpdate}
 							</td>
 						</tr>
 					{/each}
