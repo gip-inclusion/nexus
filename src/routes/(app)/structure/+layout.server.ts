@@ -1,6 +1,7 @@
-import { requestGristTable } from '$lib/server/grist';
+import { StructureRepositoryGrist, type Service } from '$lib/server/structure';
 import type { Job } from '$lib/types/job';
 import type { CommercialOpportunity } from '$lib/types/commercial-opportunity';
+import { gristClient } from '$lib/server/grist.js';
 
 export async function load({ parent }) {
 	const { user, structure } = await parent();
@@ -8,7 +9,11 @@ export async function load({ parent }) {
 
 	// Récupérer les jobs (métiers en recherche d'emploi)
 	const jobsFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
-	const jobsRes = await requestGristTable('GET', 'Jobs', `records?filter=${jobsFilter}`);
+	const jobsRes = await gristClient.requestGristTable(
+		'GET',
+		'Jobs',
+		`records?filter=${jobsFilter}`
+	);
 	const jobs: Job[] =
 		jobsRes.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
 			id: record.id,
@@ -27,30 +32,12 @@ export async function load({ parent }) {
 		})) || [];
 
 	// Récupérer les services d'insertion
-	const servicesFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
-	const servicesRes = await requestGristTable(
-		'GET',
-		'Services',
-		`records?filter=${servicesFilter}`
-	);
-	const services =
-		servicesRes.records?.map((record: { id: number; fields: Record<string, unknown> }) => ({
-			id: record.id,
-			name: (record.fields['Name'] as string) || '',
-			status: (record.fields['Status'] as string) === 'published' ? 'PUBLIÉE' : 'BROUILLON',
-			perimeter: 'France entière', // Default for now, could be from service data
-			lastUpdate: new Date(
-				(record.fields['Updated_at'] as string) ||
-					(record.fields['Created_at'] as string) ||
-					Date.now()
-			).toLocaleDateString('fr-FR'),
-			synchronized: false, // Default for now, could be from service data
-			link: 'https://dora.inclusion.beta.gouv.fr/services/' + record.fields['Slug'] as string
-		})) || [];
+	const structureRepository = new StructureRepositoryGrist(gristClient);
+	const services: Service[] = await structureRepository.getServiceByStructureId(structureId);
 
 	// Récupérer les opportunités commerciales
 	const opportunitiesFilter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
-	const opportunitiesRes = await requestGristTable(
+	const opportunitiesRes = await gristClient.requestGristTable(
 		'GET',
 		'Opportunities',
 		`records?filter=${opportunitiesFilter}`
@@ -83,9 +70,7 @@ export async function load({ parent }) {
 	// Calculer les statistiques pour la vue d'ensemble
 	const activeJobs = jobs.filter((job) => job.status === 'active').length;
 	const inactiveJobs = jobs.filter((job) => job.status === 'inactive').length;
-	const activeServices = services.filter(
-		(service: { id: number; name: string; status: string }) => service.status === 'PUBLIÉE'
-	).length;
+	const activeServices = services.filter((service) => service.isActive).length;
 	const activeOpportunities = commercialOpportunities.filter(
 		(opp) => opp.status === 'active'
 	).length;

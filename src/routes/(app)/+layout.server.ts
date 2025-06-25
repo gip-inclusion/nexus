@@ -1,4 +1,4 @@
-import { requestGristTable } from '$lib/server/grist';
+import { gristClient } from '$lib/server/grist';
 import type { Structure } from '$lib/server/structure.js';
 import { redirect } from '@sveltejs/kit';
 
@@ -9,7 +9,7 @@ export async function load({ locals }) {
 
 	const structureId = user.structureId;
 	const filter = encodeURIComponent(JSON.stringify({ id: [structureId] }));
-	const res = await requestGristTable('GET', 'Structures', `records?filter=${filter}`);
+	const res = await gristClient.requestGristTable('GET', 'Structures', `records?filter=${filter}`);
 
 	const structureRecord = res.records?.[0];
 

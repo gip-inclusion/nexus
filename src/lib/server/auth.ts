@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { sendEmail } from './mailer';
-import { requestGristTable } from './grist';
+import { gristClient } from './grist';
 import { NEXUS_BASE_URL } from '$env/static/private';
 
 const DEFAULT_NEXUS_BASE_URL = 'http://localhost:5173';
@@ -12,14 +12,14 @@ export async function generateMagicLink(email: string): Promise<string> {
 
 	const filter = encodeURIComponent(JSON.stringify({ Email: [email] }));
 
-	const res = await requestGristTable('GET', 'Accounts', `records?filter=${filter}`);
+	const res = await gristClient.requestGristTable('GET', 'Accounts', `records?filter=${filter}`);
 	const account = res.records?.[0];
 
 	if (!account) {
 		throw new Error(`Aucun compte trouvé pour l’email : ${email}`);
 	}
 
-	await requestGristTable('POST', 'Magic_links', 'records', {
+	await gristClient.requestGristTable('POST', 'Magic_links', 'records', {
 		records: [
 			{
 				fields: {
