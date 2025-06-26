@@ -2,7 +2,7 @@
 	import showdown from 'showdown';
 
 	export let data;
-	
+
 	const structure = data.structure;
 	const { stats } = data;
 
@@ -21,179 +21,92 @@
 			return dateString;
 		}
 	};
-	
+
+	import ModuleCardEmplois from '$lib/components/ModuleCardEmplois.svelte';
+	import ModuleCardServicesInsertion from '$lib/components/ModuleCardServicesInsertion.svelte';
+	import ModuleCardOpportunitesCommerciales from '$lib/components/ModuleCardOpportunitesCommerciales.svelte';
+
 	const converter = new showdown.Converter();
 
 	const presentationHtml = converter.makeHtml(structure.presentation || '');
-
 </script>
 
 <div>
 	<h2 class="mb-4 inline-block p-1 text-2xl font-semibold">Vue d'ensemble</h2>
 
-	<!-- Services -->
-	<section class="mb-8 flex flex-col rounded-lg border border-gray-200 bg-white p-6">
-		<!-- Top row for Title, Date, and Button -->
-		<div class="mb-6">
-			<h2 class="mb-4 text-base font-semibold">Vos services actuels</h2>
-			<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-				<!-- Offres d'emploi card -->
-				<div class="flex flex-col justify-between rounded-lg border border-[#006ADC] p-4">
-					<a href="/structure/offres-emploi">
-						<div class="flex items-center justify-between">
-							<div class="flex items-center">
-								<img
-									src="/images/logo-emplois.png"
-									alt="Offres d'emploi logo"
-									style="width: 20px; height: 20px; margin-right: 5px;"
-								/>
-								<div>
-									<h3 class="font-bold" style="margin-bottom: 0;">Offres d'emplois</h3>
-									<p class="text-sm text-gray-500" style="margin-top: 0;">
-										les Emplois de l'inclusion
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="mt-2 text-sm">
-							<p class="mb-1">
-								<span
-									class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 font-bold text-blue-700"
-									>{stats.activeJobs}</span
-								> offres d'emplois actives
-							</p>
-							<p>
-								<span
-									class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50 font-bold text-blue-700"
-									>{stats.inactiveJobs}</span
-								> offres d'emplois inactives
-							</p>
-						</div>
-					</a>
-				</div>
-
-				<!-- Services d'insertion card -->
-				<div class="flex flex-col justify-between rounded-lg border border-[#5B12EB] p-4">
-					<a href="/structure/services-insertion">
-						<div class="flex items-center justify-between">
-							<div class="flex items-center">
-								<img
-									src="/images/logo-dora.png"
-									alt="Services d'insertion logo"
-									style="width: 20px; height: 20px; margin-right: 5px;"
-								/>
-								<div>
-									<h3 class="font-bold text-indigo-600" style="margin-bottom: 0;">
-										Services d'insertion
-									</h3>
-									<p class="text-sm text-gray-500" style="margin-top: 0;">DORA</p>
-								</div>
-							</div>
-						</div>
-						<div class="mt-2 text-sm">
-							<p>
-								<span
-									class="mr-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-50 font-bold text-indigo-700"
-									>{stats.activeServices}</span
-								> services d'insertion actifs
-							</p>
-						</div>
-					</a>
-				</div>
-
-				<!-- Opportunités commerciales card -->
-				<div class="flex flex-col justify-between rounded-lg border border-[#FE5455] p-4">
-					<a href="/structure/opportunites-commerciales">
-						<div style="display: flex; align-items: center;">
-							<div class="flex items-center">
-								<img
-									src="/images/logo-marche.png"
-									alt="Opportunités commerciales logo"
-									style="width: 20px; height: 20px; margin-right: 5px;"
-								/>
-								<div>
-									<h3 class="font-bold text-red-600" style="margin-bottom: 0;">
-										Opportunités commerciales
-									</h3>
-									<p class="text-sm text-gray-500" style="margin-top: 0;">
-										Le Marché de l'inclusion
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="mt-2 text-sm">
-							<p>
-								<span class="font-semibold text-red-700">{stats.activeOpportunities}</span> nouvelles
-								opportunités
-							</p>
-						</div>
-					</a>
-				</div>
+	<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+		<section class="flex flex-col rounded-lg border border-gray-200 bg-white p-6">
+			<div class="mb-8">
+				<h2 class="mb-4 text-base font-semibold">Mes app’s</h2>
+				<ModuleCardEmplois activeJobs={stats.activeJobs} inactiveJobs={stats.inactiveJobs}/>
+				<ModuleCardServicesInsertion activeServices={stats.activeServices} />
+				<ModuleCardOpportunitesCommerciales activeOpportunities={stats.activeOpportunities} />
 			</div>
-		</div>
-	</section>
+			<!--
+			<div>
+				<h2 class="mb-4 text-base font-semibold">Ajoutez de nouvelles app’s</h2>
+				<p>TODO</p>
+			</div>
+			-->
+		</section>
 
-	<!-- Description and Coordonnées -->
-	<section class="mb-8 flex flex-col rounded-lg border border-gray-200 bg-white p-6">
-		<!-- Top row for Title, Date, and Button -->
-		<div class="mb-6 flex items-start justify-between">
-			<div class="flex-grow pr-4">
+	<!-- Description et coordonnées -->
+	<section class="flex flex-col rounded-lg border border-gray-200 bg-white p-6">
+		<!-- Title -->
+		<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+			<div class="flex-grow">
 				<h2 class="text-base font-semibold">Description et coordonnées</h2>
-			</div>
-			<div class="flex items-center justify-end text-xs text-gray-500 italic">
-				{#if structure.edited_at}
-					<div class="mr-4">dernière mise à jour le {formatDate(structure.edited_at)}</div>
+			    {#if structure.edited_at}
+					<div class="mr-4 text-sm text-gray-500">dernière mise à jour le {formatDate(structure.edited_at)}</div>
 				{/if}
+			</div>
+			<div class="flex items-center justify-end gap-4 text-xs text-gray-500 italic">
 				<button
 					class="rounded border border-blue-600 bg-white px-3 py-1 text-sm text-blue-600 hover:bg-blue-50"
 					>Modifier</button
 				>
 			</div>
 		</div>
-
-		<!-- Row for Description and Contact Info Block -->
-		<div class="flex justify-between">
-		<div class="w-2/3 pr-4">
-			<!-- Left column for description -->
-			<div class="text-sm leading-relaxed text-gray-700 space-y-4">
+			<!-- Structure contact panel -->
+			<div class="mb-4 rounded-lg border border-gray-200 p-4">
+				<div class="mb-4 flex items-center">
+					<div class="mr-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#F6F8FF]">
+						<i class="ri-community-line text-xl text-blue-600"></i>
+					</div>
+					<div>
+						{#if structure.type}
+							<p class="text-sm font-semibold">{structure.type}</p>
+						{/if}
+						<p class="text-lg font-bold">{structure.name || '-'}</p>
+					</div>
+				</div>
+				<hr class="mb-4 border-gray-200" />
+				<p class="mb-2 flex items-center text-sm">
+					<i class="ri-map-pin-2-line mr-1 text-gray-600"></i>
+					{structure.address || '-'}
+				</p>
+				<p class="mb-2 flex items-center text-sm text-blue-600">
+					<i class="ri-mail-line mr-1 text-gray-600"></i>
+					<a href={'mailto:' + structure.email}>{structure.email || '-'}</a>
+				</p>
+				<p class="mb-2 flex items-center text-sm">
+					<i class="ri-phone-line mr-1 text-gray-600"></i>
+					{structure.phone || '-'}
+				</p>
+				<p class="flex items-center text-sm text-blue-600">
+					<i class="ri-global-line mr-1 text-gray-600"></i>
+					<a href={structure.website} target="_blank" rel="noopener noreferrer">
+						{structure.website || '-'}
+					</a>
+				</p>
+			</div>
+			<!-- Presentation -->
+			<div class="text-sm leading-relaxed text-gray-700">
 				{@html presentationHtml}
 			</div>
-		</div>
-			<div class="w-1/3 pl-4">
-				<!-- Right column for Contact Info Block -->
-				<div class="rounded-lg border border-gray-200 p-4">
-					<div class="mb-4 flex items-center">
-						<div class="mr-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#F6F8FF]">
-							<i class="ri-community-line text-xl text-blue-600"></i>
-						</div>
-						<div>
-							{#if structure.type}
-						    <p class="text-sm font-semibold">{structure.type}</p>
-							{/if}
-							<p class="text-lg font-bold">{structure.name || '-'}</p>
-						</div>
-					</div>
-					<hr class="mb-4 border-gray-200" />
-					<p class="mb-2 flex items-center text-sm">
-						<i class="ri-map-pin-2-line mr-1 text-gray-600"></i>
-						{structure.address || '-'}
-					</p>
-					<p class="mb-2 flex items-center text-sm text-blue-600">
-						<i class="ri-mail-line mr-1 text-gray-600"></i>
-						{structure.email || '-'}
-					</p>
-					<p class="mb-2 flex items-center text-sm">
-						<i class="ri-phone-line mr-1 text-gray-600"></i>
-						{structure.phone || '-'}
-					</p>
-					<p class="flex items-center text-sm text-blue-600">
-						<i class="ri-global-line mr-1 text-gray-600"></i>
-						<a href={structure.website} target="_blank" rel="noopener noreferrer">
-							{structure.website || '-'}
-						</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
+		</section>
+	</div>
 </div>
+
+
+								
