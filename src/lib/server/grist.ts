@@ -3,7 +3,9 @@ import { GRIST_API_URL, DOC_ID, API_KEY } from '$env/static/private';
 export class GristClient {
 
   async requestGristTable(method: string, table: string, path: string, body?: unknown): any {
-		const res = await fetch(`${GRIST_API_URL}/docs/${DOC_ID}/tables/${table}/${path}`, {
+    const url = `${GRIST_API_URL}/docs/${DOC_ID}/tables/${table}/${path}`;
+    console.log(url);
+    const res = await fetch(url, {
 			method,
 			headers: {
 				Authorization: `Bearer ${API_KEY}`,
