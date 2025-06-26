@@ -15,6 +15,25 @@ export class Structure {
 	email?: string;
 	phone?: string;
 	website?: string;
+
+	toJSON() {
+		return {
+		  id: this.id,
+		  name: this.name,
+		  siret: this.siret,
+		  type: this.type,
+		  created_at: this.created_at?.toLocaleDateString('fr-FR'),
+		  edited_at: this.edited_at?.toLocaleDateString('fr-FR'),
+		  presentation: this.presentation,
+		  address: this.address,
+		  address_supplement: this.address_supplement,
+		  city: this.city,
+		  postal_code: this.postal_code,
+		  email: this.email,
+		  phone: this.phone,
+		  website: this.website,
+		};
+	}
 }
 
 export interface StructureRepository {
@@ -25,7 +44,7 @@ export class StructureRepositoryGrist implements StructureRepository {
 	constructor(readonly gristClient: GristClient) {}
 
 	async getStructureById(structureId: string): Promise<Structure> {
-		const filter = encodeURIComponent(JSON.stringify({ Structure: [structureId] }));
+		const filter = encodeURIComponent(JSON.stringify({ id: [structureId] }));
 		const data = await this.gristClient.requestGristTable(
 			'GET',
 			'Structures',
@@ -37,8 +56,12 @@ export class StructureRepositoryGrist implements StructureRepository {
 		structure.id = String(record.id);
 		structure.name = record.fields['Name'] as string;
 		structure.siret = record.fields['Siret'] as string;
-		structure.created_at = record.fields['Created_at'] ? new Date(record.fields['Created_at'] as string) : undefined;
-		structure.edited_at = record.fields['Edited_at'] ? new Date(record.fields['Created_at'] as string) : undefined;
+		structure.created_at = record.fields['Created_at']
+			? new Date(record.fields['Created_at'] as string)
+			: undefined;
+		structure.edited_at = record.fields['Edited_at']
+			? new Date(record.fields['Created_at'] as string)
+			: undefined;
 		structure.presentation = (record.fields['Presentation'] as string) || undefined;
 		structure.address = (record.fields['Address'] as string) || undefined;
 		structure.address_supplement = (record.fields['Address_supplement'] as string) || undefined;
