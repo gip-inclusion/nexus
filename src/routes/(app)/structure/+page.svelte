@@ -45,7 +45,7 @@
 			<!--
 			<div>
 				<h2 class="mb-4 text-base font-semibold">Ajoutez de nouvelles app’s</h2>
-				<p>TODO</p>
+				<p>🚧 WIP 🚧</p>
 			</div>
 			-->
 		</section>

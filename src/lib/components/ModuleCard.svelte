@@ -18,7 +18,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex items-center text-sm w-6/12"> <!-- Use mt-auto to push content to the bottom -->
+		<div class="flex items-center text-sm w-6/12">
 			<slot />
 		</div>
 		<div class="flex items-center justify-center w-1/12">
