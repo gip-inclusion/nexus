@@ -11,7 +11,6 @@
 	imgSrc="/images/logo-rdv-insertion.png"
 	imgAlt="Logo RDV-Insertion"
 	href="/structure"
-	borderColorClass="border-gray-200"
 >
 	<div class="flex flex-col align-items">
 	</div>

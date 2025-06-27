@@ -14,7 +14,6 @@
 	imgSrc="/images/logo-emplois.png"
 	imgAlt="Offres d'emploi logo"
 	href="/structure/offres-emploi"
-	borderColorClass="border-[#006ADC]"
 >
 	<div class="align-items flex flex-col">
 		<p class="mb-1">

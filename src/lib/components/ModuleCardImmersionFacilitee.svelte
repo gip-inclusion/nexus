@@ -11,7 +11,6 @@
 	imgSrc="/images/logo-immersion-facilitee.png"
 	imgAlt="Logo Immersion Facilitée"
 	href="/structure"
-	borderColorClass="border-gray-200"
 >
 	<div class="flex flex-col align-items">
 	</div>

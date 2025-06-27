@@ -13,7 +13,6 @@
 	imgSrc="/images/logo-marche.png"
 	imgAlt="Opportunités commerciales logo"
 	href="/structure/opportunites-commerciales"
-	borderColorClass="border-[#FE5455]"
 >
 	<p>
 		<span class="font-semibold text-red-700">{activeOpportunities}</span> nouvelles opportunités

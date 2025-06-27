@@ -11,7 +11,6 @@
 	imgSrc="/images/logo-communaute.png"
 	imgAlt="Logo Communauté"
 	href="/structure"
-	borderColorClass="border-gray-200"
 >
 	<div class="flex flex-col align-items">
 	</div>

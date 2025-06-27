@@ -13,7 +13,6 @@
 	imgSrc="/images/logo-dora.png"
 	imgAlt="Services d'insertion logo"
 	href="/structure/services-insertion"
-	borderColorClass="border-[#5B12EB]"
 >
 	<div class="flex flex-col align-items">
 		<p>

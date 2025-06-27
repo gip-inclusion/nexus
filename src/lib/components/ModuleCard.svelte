@@ -6,7 +6,7 @@
 	export let imgSrc: string;
 	export let imgAlt: string;
 	export let href: string;
-	export let borderColorClass: string;
+	export let borderColorClass: string = 'border-gray-200';
 </script>
 
 <div class="flex flex-col justify-between rounded-lg border {borderColorClass} mb-4 p-4">

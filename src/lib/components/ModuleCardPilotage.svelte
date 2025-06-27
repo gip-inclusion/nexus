@@ -11,7 +11,6 @@
 	imgSrc="/images/logo-pilotage.png"
 	imgAlt="Logo Pilotage"
 	href="/structure"
-	borderColorClass="border-gray-200"
 >
 	<div class="flex flex-col align-items">
 	</div>
