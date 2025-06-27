@@ -1,10 +1,19 @@
 <script lang="ts">
 	import showdown from 'showdown';
+	import { ModuleName } from '$lib/module.js';
+	import ModuleCardEmplois from '$lib/components/ModuleCardEmplois.svelte';
+	import ModuleCardServicesInsertion from '$lib/components/ModuleCardServicesInsertion.svelte';
+	import ModuleCardOpportunitesCommerciales from '$lib/components/ModuleCardOpportunitesCommerciales.svelte';
+	import ModuleCardMonRecap from '$lib/components/ModuleCardMonRecap.svelte';
+	import ModuleCardImmersionFacilitee from '$lib/components/ModuleCardImmersionFacilitee.svelte';
+	import ModuleCardRdvInsertion from '$lib/components/ModuleCardRdvInsertion.svelte';
+	import ModuleCardGps from '$lib/components/ModuleCardGps.svelte';
+	import ModuleCardPilotage from '$lib/components/ModuleCardPilotage.svelte';
+	import ModuleCardCommunaute from '$lib/components/ModuleCardCommunaute.svelte';
 
 	export let data;
 
-	const structure = data.structure;
-	const { stats } = data;
+	const { structure, stats } = data;
 
 	const formatDate = (dateString: string) => {
 		if (!dateString) return '-';
@@ -22,19 +31,67 @@
 		}
 	};
 
-	import ModuleCardEmplois from '$lib/components/ModuleCardEmplois.svelte';
-	import ModuleCardServicesInsertion from '$lib/components/ModuleCardServicesInsertion.svelte';
-	import ModuleCardOpportunitesCommerciales from '$lib/components/ModuleCardOpportunitesCommerciales.svelte';
-	import ModuleCardMonRecap from '$lib/components/ModuleCardMonRecap.svelte';
-	import ModuleCardImmersionFacilitee from '$lib/components/ModuleCardImmersionFacilitee.svelte';
-	import ModuleCardRdvInsertion from '$lib/components/ModuleCardRdvInsertion.svelte';
-	import ModuleCardGps from '$lib/components/ModuleCardGps.svelte';
-	import ModuleCardPilotage from '$lib/components/ModuleCardPilotage.svelte';
-	import ModuleCardCommunaute from '$lib/components/ModuleCardCommunaute.svelte';
-
 	const converter = new showdown.Converter();
-
 	const presentationHtml = converter.makeHtml(structure.presentation || '');
+
+	function isActiveModule(moduleKey: string) {
+		return (
+			structure.modules && Array.isArray(structure.modules) && structure.modules.includes(moduleKey)
+		);
+	}
+
+	// Configuration des modules avec leurs composants et propriétés
+	const allModules = [
+		{
+			key: ModuleName.Communaute,
+			component: ModuleCardCommunaute,
+			props: {}
+		},
+		{
+			key: ModuleName.Dora,
+			component: ModuleCardServicesInsertion,
+			props: { activeServices: stats.activeServices }
+		},
+		{
+			key: ModuleName.Emplois,
+			component: ModuleCardEmplois,
+			props: { activeJobs: stats.activeJobs, inactiveJobs: stats.inactiveJobs }
+		},
+		{
+			key: ModuleName.Gps,
+			component: ModuleCardGps,
+			props: {}
+		},
+		{
+			key: ModuleName.ImmersionFacilitee,
+			component: ModuleCardImmersionFacilitee,
+			props: {}
+		},
+		{
+			key: ModuleName.Marche,
+			component: ModuleCardOpportunitesCommerciales,
+			props: { activeOpportunities: stats.activeOpportunities }
+		},
+		{
+			key: ModuleName.MonRecap,
+			component: ModuleCardMonRecap,
+			props: {}
+		},
+		{
+			key: ModuleName.Pilotage,
+			component: ModuleCardPilotage,
+			props: {}
+		},
+		{
+			key: ModuleName.RdvInsertion,
+			component: ModuleCardRdvInsertion,
+			props: {}
+		}
+	];
+
+	// Filtrer les modules actifs et inactifs
+	$: activeModules = allModules.filter((module) => isActiveModule(module.key));
+	$: inactiveModules = allModules.filter((module) => !isActiveModule(module.key));
 </script>
 
 <div>
@@ -43,42 +100,40 @@
 	<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
 		<section class="flex flex-col rounded-lg border border-gray-200 bg-white p-6">
 			<div class="mb-8">
-				<h2 class="mb-4 text-base font-semibold">Mes app’s</h2>
-				<ModuleCardEmplois isActive={true} activeJobs={stats.activeJobs} inactiveJobs={stats.inactiveJobs}/>
-				<ModuleCardServicesInsertion isActive={true} activeServices={stats.activeServices} />
-				<ModuleCardOpportunitesCommerciales isActive={true} activeOpportunities={stats.activeOpportunities} />
-				<ModuleCardMonRecap />
-				<ModuleCardImmersionFacilitee />
-				<ModuleCardRdvInsertion />
-				<ModuleCardGps />
-				<ModuleCardPilotage />
-				<ModuleCardCommunaute />
+				<h2 class="mb-4 text-base font-semibold">Mes app's</h2>
+
+				{#each activeModules as module}
+					<svelte:component this={module.component} isActive={true} {...module.props} />
+				{/each}
 			</div>
-			<!--
+
 			<div>
-				<h2 class="mb-4 text-base font-semibold">Ajoutez de nouvelles app’s</h2>
-				<p>🚧 WIP 🚧</p>
+				<h2 class="mb-4 text-base font-semibold">Ajoutez de nouvelles app's</h2>
+				{#each inactiveModules as module}
+					<svelte:component this={module.component} isActive={false} {...module.props} />
+				{/each}
 			</div>
-			-->
 		</section>
 
-	<!-- Description et coordonnées -->
-	<section class="flex flex-col rounded-lg border border-gray-200 bg-white p-6">
-		<!-- Title -->
-		<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-			<div class="flex-grow">
-				<h2 class="text-base font-semibold">Description et coordonnées</h2>
-			    {#if structure.edited_at}
-					<div class="mr-4 text-sm text-gray-500">dernière mise à jour le {formatDate(structure.edited_at)}</div>
-				{/if}
+		<!-- Description et coordonnées -->
+		<section class="flex flex-col rounded-lg border border-gray-200 bg-white p-6">
+			<!-- Title -->
+			<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+				<div class="flex-grow">
+					<h2 class="text-base font-semibold">Description et coordonnées</h2>
+					{#if structure.edited_at}
+						<div class="mr-4 text-sm text-gray-500">
+							dernière mise à jour le {formatDate(structure.edited_at)}
+						</div>
+					{/if}
+				</div>
+				<div class="flex items-center justify-end gap-4 text-xs text-gray-500 italic">
+					<button
+						class="rounded border border-blue-600 bg-white px-3 py-1 text-sm text-blue-600 hover:bg-blue-50"
+						>Modifier</button
+					>
+				</div>
 			</div>
-			<div class="flex items-center justify-end gap-4 text-xs text-gray-500 italic">
-				<button
-					class="rounded border border-blue-600 bg-white px-3 py-1 text-sm text-blue-600 hover:bg-blue-50"
-					>Modifier</button
-				>
-			</div>
-		</div>
 			<!-- Structure contact panel -->
 			<div class="mb-4 rounded-lg border border-gray-200 p-4">
 				<div class="mb-4 flex items-center">
@@ -119,6 +174,3 @@
 		</section>
 	</div>
 </div>
-
-
-								

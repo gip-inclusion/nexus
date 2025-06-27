@@ -1,5 +1,5 @@
 import { gristClient, type GristClient } from './grist';
-import { ModuleName } from './module';
+import { ModuleName } from '../module';
 
 export class Structure {
 	id?: string;

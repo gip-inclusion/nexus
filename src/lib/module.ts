@@ -5,7 +5,7 @@ export enum ModuleName {
   Communaute = 'Communauté',
   RdvInsertion = 'rdv-insertion',
   ImmersionFacilitee = 'Immersion facilitée',
-  GPS = 'GPS',
-  Marché = 'Marché',
+  Gps = 'GPS',
+  Marche = 'Marché',
   MonRecap = 'Mon Récap',
 }
