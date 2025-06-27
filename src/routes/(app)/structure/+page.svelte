@@ -1,6 +1,6 @@
 <script lang="ts">
 	import showdown from 'showdown';
-	import { ModuleName } from '$lib/module.js';
+	import { ModuleName, isActiveModule } from '$lib/module.js';
 	import ModuleCardEmplois from '$lib/components/ModuleCardEmplois.svelte';
 	import ModuleCardDora from '$lib/components/ModuleCardDora.svelte';
 	import ModuleCardMarche from '$lib/components/ModuleCardMarche.svelte';
@@ -11,8 +11,8 @@
 	import ModuleCardPilotage from '$lib/components/ModuleCardPilotage.svelte';
 	import ModuleCardCommunaute from '$lib/components/ModuleCardCommunaute.svelte';
 
-	export let data;
-
+	let { data } = $props();
+	
 	const { structure, stats } = data;
 
 	const formatDate = (dateString: string) => {
@@ -33,12 +33,6 @@
 
 	const converter = new showdown.Converter();
 	const presentationHtml = converter.makeHtml(structure.presentation || '');
-
-	function isActiveModule(moduleKey: string) {
-		return (
-			structure.modules && Array.isArray(structure.modules) && structure.modules.includes(moduleKey)
-		);
-	}
 
 	// Configuration des modules avec leurs composants et propriétés
 	const allModules = [
@@ -90,8 +84,12 @@
 	];
 
 	// Filtrer les modules actifs et inactifs
-	$: activeModules = allModules.filter((module) => isActiveModule(module.key));
-	$: inactiveModules = allModules.filter((module) => !isActiveModule(module.key));
+	const activeModules = $derived(
+		allModules.filter((module) => isActiveModule(module.key, structure.modules))
+	);
+	const inactiveModules = $derived(
+		allModules.filter((module) => !isActiveModule(module.key, structure.modules))
+	);
 </script>
 
 <div>
@@ -102,15 +100,17 @@
 			<div class="mb-8">
 				<h2 class="mb-4 text-base font-semibold">Mes app's</h2>
 
-				{#each activeModules as module}
-					<svelte:component this={module.component} isActive={true} {...module.props} />
+				{#each activeModules as module(module.key)}
+    				{@const Component = module.component}
+    				<Component isActive={true} {...module.props}/>
 				{/each}
 			</div>
 
 			<div>
 				<h2 class="mb-4 text-base font-semibold">Ajoutez de nouvelles app's</h2>
-				{#each inactiveModules as module}
-					<svelte:component this={module.component} isActive={false} {...module.props} />
+				{#each inactiveModules as module(module.key)}
+				    {@const Component = module.component}
+    				<Component isActive={false} {...module.props}/>
 				{/each}
 			</div>
 		</section>

@@ -1,32 +1,49 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { ModuleName, isActiveModule } from '$lib/module.js';
 
 	const pathname = $derived(() => page.url.pathname);
 
-	let { children } = $props();
+	let { children, data } = $props();
 
-	const navItems = [
+	const { structure } = data;
+
+	// Mapping des modules vers les entrées de navigation
+	const moduleNavMapping = [
 		{
-			href: '/structure',
-			label: "Vue d'ensemble",
-			isActive: (path: string) => path === '/structure'
-		},
-		{
+			moduleKey: ModuleName.Emplois,
 			href: '/structure/offres-emploi',
-			label: "Offres d'emplois",
+			label: "Offres d'emploi",
 			isActive: (path: string) => path.startsWith('/structure/offres-emploi')
 		},
 		{
+			moduleKey: ModuleName.Dora,
 			href: '/structure/services-insertion',
 			label: "Services d'insertion",
 			isActive: (path: string) => path.startsWith('/structure/services-insertion')
 		},
 		{
+			moduleKey: ModuleName.Marche,
 			href: '/structure/opportunites-commerciales',
 			label: 'Opportunités commerciales',
 			isActive: (path: string) => path.startsWith('/structure/opportunites-commerciales')
 		}
 	];
+
+	// Navigation de base (toujours visible)
+	const baseNavItems = [
+		{
+			href: '/structure',
+			label: "Vue d'ensemble",
+			isActive: (path: string) => path === '/structure'
+		}
+	];
+
+	// Filtrer les entrées de navigation selon les modules actifs
+	const moduleNavItems = $derived(
+		moduleNavMapping.filter((item) => isActiveModule(item.moduleKey, structure.modules))
+	);
+	const navItems = $derived([...baseNavItems, ...moduleNavItems]);
 
 	const getNavLinkClasses = (isActive: boolean) => {
 		const baseClasses = '-mb-px border-b-2 pb-2 transition-colors duration-200';

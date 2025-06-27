@@ -1,16 +1,39 @@
 <script lang="ts">
- 	import { page } from '$app/stores';
+	import { page } from '$app/stores';
+	import { ModuleName, isActiveModule } from '$lib/module.js';
 	import '../../app.css';
 
 	let { data, children } = $props();
-	
-	const links = [
-		{ href: '/structure', label: "Vue d'ensemble" },
-		{ href: '/structure/offres-emploi', label: "Offres d'emplois" },
-		{ href: '/structure/services-insertion', label: "Services d'insertion" },
-		{ href: '/structure/opportunites-commerciales', label: "Opportunités commerciales" }
+
+	const { structure } = data;
+
+	// Mapping des modules vers les entrées de navigation
+	const moduleNavMapping = [
+		{
+			moduleKey: ModuleName.Emplois,
+			href: '/structure/offres-emploi',
+			label: "Offres d'emplois"
+		},
+		{
+			moduleKey: ModuleName.Dora,
+			href: '/structure/services-insertion',
+			label: "Services d'insertion"
+		},
+		{
+			moduleKey: ModuleName.Marche,
+			href: '/structure/opportunites-commerciales',
+			label: 'Opportunités commerciales'
+		}
 	];
-	
+
+	// Navigation de base (toujours visible)
+	const baseLinks = [{ href: '/structure', label: "Vue d'ensemble" }];
+
+	// Filtrer les liens selon les modules actifs
+	const moduleLinks = $derived(
+		moduleNavMapping.filter((item) => isActiveModule(item.moduleKey, structure.modules))
+	);
+	const links = $derived([...baseLinks, ...moduleLinks]);
 </script>
 
 <div class="flex min-h-screen bg-gray-50 text-[#000638]">
@@ -24,9 +47,9 @@
 						<i class="ri-community-line text-xl text-white"></i>
 					</div>
 					<div>
-					{#if data.structure.type}
-					<p class="text-sm font-normal text-[#0B0B45]">{data.structure.type}</p>
-					{/if}
+						{#if data.structure.type}
+							<p class="text-sm font-normal text-[#0B0B45]">{data.structure.type}</p>
+						{/if}
 						<p class="text-base font-bold text-[#0B0B45]">{data.structure.name || '-'}</p>
 					</div>
 				</div>
@@ -46,17 +69,17 @@
 							<svg class="ml-auto h-3 w-3" fill="currentColor">…</svg>
 						</div>
 						<ul class="mt-2 ml-6 space-y-4 text-[#0B0B45]">
-						{#each links as { href, label } (label)}
-							<li>
-								<a
-									href="{href}"
-									class:font-bold={$page.url.pathname === href}
-									class:font-light={$page.url.pathname !== href}
-								>
-									{label}
-								</a>
-							</li>
-						{/each}
+							{#each links as { href, label } (label)}
+								<li>
+									<a
+										{href}
+										class:font-bold={$page.url.pathname === href}
+										class:font-light={$page.url.pathname !== href}
+									>
+										{label}
+									</a>
+								</li>
+							{/each}
 						</ul>
 					</li>
 				</ul>
