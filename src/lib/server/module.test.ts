@@ -14,7 +14,6 @@ describe('ModuleReposirotyGrist', () => {
 							App: 'DORA',
 							Title: 'Services d’insertion',
 							Baseline: 'Donnez de la visibilité à votre offre de services',
-							Logo: '',
 							Website: 'https://dora.inclusion.beta.gouv.fr/'
 						}
 					}
@@ -44,7 +43,6 @@ describe('ModuleReposirotyGrist', () => {
 							App: 'DORA',
 							Title: 'Services d’insertion',
 							Baseline: 'Donnez de la visibilité à votre offre de services',
-							Logo: 'https://image.url',
 							Website: 'https://dora.inclusion.beta.gouv.fr'
 						}
 					},
@@ -54,7 +52,6 @@ describe('ModuleReposirotyGrist', () => {
 							App: 'les Emplois',
 							Title: 'Offres d’emploi',
 							Baseline: 'Faciliter la mise en relation avec les employeurs solidaires',
-							Logo: 'https://image.url',
 							Website: 'https://emplois.inclusion.beta.gouv.fr'
 						}
 					}
@@ -75,7 +72,6 @@ describe('ModuleReposirotyGrist', () => {
     module1.app = 'DORA';
     module1.title = 'Services d’insertion';
     module1.baseline = 'Donnez de la visibilité à votre offre de services';
-    module1.logo = 'https://image.url';
     module1.website = 'https://dora.inclusion.beta.gouv.fr';
 
     const module2 = new Module();
@@ -83,7 +79,6 @@ describe('ModuleReposirotyGrist', () => {
     module2.app = 'les Emplois';
     module2.title = 'Offres d’emploi';
     module2.baseline = 'Faciliter la mise en relation avec les employeurs solidaires';
-    module2.logo = 'https://image.url';
     module2.website = 'https://emplois.inclusion.beta.gouv.fr';
     
 		const expected: Module[] = [module1, module2];

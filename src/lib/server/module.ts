@@ -1,12 +1,33 @@
 import { GristClient, gristClient } from './grist';
 
+export enum ModuleName {
+  Dora = 'DORA',
+  Emplois = 'Emplois',
+  Pilotage = 'Pilotage',
+  Communaute = 'Communauté',
+  RdvInsertion = 'rdv-insertion',
+  ImmersionFacilitee = 'Immersion facilitée',
+  GPS = 'GPS',
+  Marché = 'Marché',
+  MonRecap = 'Mon Récap',
+}
+
 export class Module {
 	id?: string;
 	app?: string;
 	title?: string;
 	baseline?: string;
-	logo?: string;
 	website?: string;
+
+	toJSON() {
+		return {
+		  id: this.id,
+		  app: this.app,
+		  title: this.title,
+		  baseline: this.baseline,
+		  website: this.website,
+		};
+	}
 }
 
 export interface ModuleRepository {
@@ -26,7 +47,6 @@ export class ModuleRepositoryGrist implements ModuleRepository {
 				module.app = record.fields['App'] as string;
 				module.title = record.fields['Title'] as string;
 				module.baseline = record.fields['Baseline'] as string;
-				module.logo = record.fields['Logo'] as string;
 				module.website = record.fields['Website'] as string;
 
 				return module;

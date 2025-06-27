@@ -25,6 +25,12 @@
 	import ModuleCardEmplois from '$lib/components/ModuleCardEmplois.svelte';
 	import ModuleCardServicesInsertion from '$lib/components/ModuleCardServicesInsertion.svelte';
 	import ModuleCardOpportunitesCommerciales from '$lib/components/ModuleCardOpportunitesCommerciales.svelte';
+	import ModuleCardMonRecap from '$lib/components/ModuleCardMonRecap.svelte';
+	import ModuleCardImmersionFacilitee from '$lib/components/ModuleCardImmersionFacilitee.svelte';
+	import ModuleCardRdvInsertion from '$lib/components/ModuleCardRdvInsertion.svelte';
+	import ModuleCardGps from '$lib/components/ModuleCardGps.svelte';
+	import ModuleCardPilotage from '$lib/components/ModuleCardPilotage.svelte';
+	import ModuleCardCommunaute from '$lib/components/ModuleCardCommunaute.svelte';
 
 	const converter = new showdown.Converter();
 
@@ -38,9 +44,15 @@
 		<section class="flex flex-col rounded-lg border border-gray-200 bg-white p-6">
 			<div class="mb-8">
 				<h2 class="mb-4 text-base font-semibold">Mes app’s</h2>
-				<ModuleCardEmplois activeJobs={stats.activeJobs} inactiveJobs={stats.inactiveJobs}/>
-				<ModuleCardServicesInsertion activeServices={stats.activeServices} />
-				<ModuleCardOpportunitesCommerciales activeOpportunities={stats.activeOpportunities} />
+				<ModuleCardEmplois isActive={true} activeJobs={stats.activeJobs} inactiveJobs={stats.inactiveJobs}/>
+				<ModuleCardServicesInsertion isActive={true} activeServices={stats.activeServices} />
+				<ModuleCardOpportunitesCommerciales isActive={true} activeOpportunities={stats.activeOpportunities} />
+				<ModuleCardMonRecap />
+				<ModuleCardImmersionFacilitee />
+				<ModuleCardRdvInsertion />
+				<ModuleCardGps />
+				<ModuleCardPilotage />
+				<ModuleCardCommunaute />
 			</div>
 			<!--
 			<div>

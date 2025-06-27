@@ -1,8 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import type { GristClient } from './grist';
 import { Structure, StructureRepositoryGrist } from './structure';
+import { ModuleName } from './module';
 
-describe('StructureReposirotyGrist', () => {
+describe('StructureRepositoryGrist', () => {
 	it('#getStructureById should call Grist API', async () => {
 		// given
 		const requestGristTable = vi.fn(() =>
@@ -14,7 +15,7 @@ describe('StructureReposirotyGrist', () => {
 							Siret: '13003013300016',
 							Name: "Plateforme de l'inclusion",
 							Memberships: ['L', 32, 38, 41],
-							Modules: ['L', 1, 3],
+							Modules: ['L', 'DORA', 'Emplois'],
 							Created_at: 1749809507.238031,
 							Presentation:
 								'**La Plateforme de l’inclusion** est un Groupement d’Intérêt Public créé par arrêté en avril 2022. Elle développe de nouveaux services publics pour faciliter la vie des personnes en insertion et de celles et ceux qui les accompagnent.',
@@ -49,7 +50,7 @@ describe('StructureReposirotyGrist', () => {
 		expect(requestGristTable).toHaveBeenCalledWith(
 			'GET',
 			'Structures',
-			'records?filter=%7B%22Structure%22%3A%5B%22structure_id%22%5D%7D'
+			'records?filter=%7B%22id%22%3A%5B%22structure_id%22%5D%7D'
 		);
 	});
 
@@ -64,7 +65,7 @@ describe('StructureReposirotyGrist', () => {
 							Siret: '13003013300016',
 							Name: 'Plateforme de l’inclusion',
 							Memberships: ['L', 32, 38, 41],
-							Modules: ['L', 1, 3],
+							Modules: ['L', 'DORA', 'Emplois'],
 							Created_at: 1749809507.238031,
 							Presentation:
 								'**La Plateforme de l’inclusion** est un Groupement d’Intérêt Public créé par arrêté en avril 2022. Elle développe de nouveaux services publics pour faciliter la vie des personnes en insertion et de celles et ceux qui les accompagnent.',
@@ -111,6 +112,7 @@ describe('StructureReposirotyGrist', () => {
 		structure.email = 'contact@inclusion.gouv.fr';
 		structure.phone = undefined;
 		structure.website = 'https://inclusion.beta.gouv.fr/';
+		structure.modules = [ModuleName.Dora, ModuleName.Emplois]
 
 		const expected: Structure = structure;
 		expect(actual).toEqual(expected);

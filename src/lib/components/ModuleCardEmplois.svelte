@@ -1,13 +1,16 @@
 <script lang="ts">
 	import ModuleCard from './ModuleCard.svelte';
 
+	export let isActive: boolean;
 	export let activeJobs: number;
 	export let inactiveJobs: number;
 </script>
 
 <ModuleCard
+    isActive={isActive}
 	title="Offres d'emplois"
-	subtitle="les Emplois de l'inclusion"
+	baseline="Faciliter la mise en relation avec les employeurs solidaires"
+	subtitle="les Emplois de l’inclusion"
 	imgSrc="/images/logo-emplois.png"
 	imgAlt="Offres d'emploi logo"
 	href="/structure/offres-emploi"

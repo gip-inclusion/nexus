@@ -1,4 +1,5 @@
 import { structureRepositoryGrist } from '$lib/server/structure.js';
+import { moduleRepository } from '$lib/server/module.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load({ locals }) {
@@ -16,9 +17,12 @@ export async function load({ locals }) {
 	if (!structure) {
 	  throw new Error('La structure associée à l’utilisateur n’a pas été trouvée');
 	}
+	
+  const modules = (await moduleRepository.listModules()).map(module => module.toJSON());
 
 	return {
 		user,
-		structure: structure.toJSON()
+		structure: structure.toJSON(),
+		modules,
 	};
 }

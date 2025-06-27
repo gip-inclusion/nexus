@@ -1,11 +1,14 @@
 <script lang="ts">
 	import ModuleCard from './ModuleCard.svelte';
+	export let isActive: boolean;
 
 	export let activeServices: number;
 </script>
 
 <ModuleCard
+    isActive={isActive}
 	title="Services d'insertion"
+	baseline=""
 	subtitle="DORA"
 	imgSrc="/images/logo-dora.png"
 	imgAlt="Services d'insertion logo"

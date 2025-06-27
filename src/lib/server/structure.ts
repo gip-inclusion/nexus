@@ -1,4 +1,5 @@
 import { gristClient, type GristClient } from './grist';
+import { ModuleName } from './module';
 
 export class Structure {
 	id?: string;
@@ -15,23 +16,25 @@ export class Structure {
 	email?: string;
 	phone?: string;
 	website?: string;
+	modules: ModuleName[] = [];
 
 	toJSON() {
 		return {
-		  id: this.id,
-		  name: this.name,
-		  siret: this.siret,
-		  type: this.type,
-		  created_at: this.created_at?.toLocaleDateString('fr-FR'),
-		  edited_at: this.edited_at?.toLocaleDateString('fr-FR'),
-		  presentation: this.presentation,
-		  address: this.address,
-		  address_supplement: this.address_supplement,
-		  city: this.city,
-		  postal_code: this.postal_code,
-		  email: this.email,
-		  phone: this.phone,
-		  website: this.website,
+			id: this.id,
+			name: this.name,
+			siret: this.siret,
+			type: this.type,
+			created_at: this.created_at?.toLocaleDateString('fr-FR'),
+			edited_at: this.edited_at?.toLocaleDateString('fr-FR'),
+			presentation: this.presentation,
+			address: this.address,
+			address_supplement: this.address_supplement,
+			city: this.city,
+			postal_code: this.postal_code,
+			email: this.email,
+			phone: this.phone,
+			website: this.website,
+			modules: this.modules
 		};
 	}
 }
@@ -70,6 +73,23 @@ export class StructureRepositoryGrist implements StructureRepository {
 		structure.email = (record.fields['Email'] as string) || undefined;
 		structure.phone = (record.fields['Phone'] as string) || undefined;
 		structure.website = (record.fields['Website'] as string) || undefined;
+
+		if (record.fields['Modules'] && (record.fields['Modules'] as Array<string>)[0] === 'L') {
+			const modulesData = record.fields['Modules'] as Array<string>;
+			modulesData.shift();
+			structure.modules = modulesData.reduce((acc: ModuleName[], moduleString: string) => {
+				const moduleNameKey = Object.keys(ModuleName).find(
+					(key) => ModuleName[key as keyof typeof ModuleName] === moduleString
+				);
+
+				if (moduleNameKey) {
+					acc.push(ModuleName[moduleNameKey as keyof typeof ModuleName]);
+				} else {
+					console.warn(`Invalid ModuleName string encountered: ${moduleString}`);
+				}
+				return acc;
+			}, []);
+		}
 
 		return structure;
 	}
