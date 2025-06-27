@@ -8,7 +8,7 @@
 <ModuleCard
     isActive={isActive}
 	title="Services d'insertion"
-	baseline=""
+	baseline="Donner de la visibilité à votre offre de services"
 	subtitle="DORA"
 	imgSrc="/images/logo-dora.png"
 	imgAlt="Services d'insertion logo"

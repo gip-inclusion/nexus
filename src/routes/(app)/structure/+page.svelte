@@ -2,8 +2,8 @@
 	import showdown from 'showdown';
 	import { ModuleName } from '$lib/module.js';
 	import ModuleCardEmplois from '$lib/components/ModuleCardEmplois.svelte';
-	import ModuleCardServicesInsertion from '$lib/components/ModuleCardServicesInsertion.svelte';
-	import ModuleCardOpportunitesCommerciales from '$lib/components/ModuleCardOpportunitesCommerciales.svelte';
+	import ModuleCardDora from '$lib/components/ModuleCardDora.svelte';
+	import ModuleCardMarche from '$lib/components/ModuleCardMarche.svelte';
 	import ModuleCardMonRecap from '$lib/components/ModuleCardMonRecap.svelte';
 	import ModuleCardImmersionFacilitee from '$lib/components/ModuleCardImmersionFacilitee.svelte';
 	import ModuleCardRdvInsertion from '$lib/components/ModuleCardRdvInsertion.svelte';
@@ -49,7 +49,7 @@
 		},
 		{
 			key: ModuleName.Dora,
-			component: ModuleCardServicesInsertion,
+			component: ModuleCardDora,
 			props: { activeServices: stats.activeServices }
 		},
 		{
@@ -69,7 +69,7 @@
 		},
 		{
 			key: ModuleName.Marche,
-			component: ModuleCardOpportunitesCommerciales,
+			component: ModuleCardMarche,
 			props: { activeOpportunities: stats.activeOpportunities }
 		},
 		{
