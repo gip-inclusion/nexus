@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ModuleCard from './ModuleCard.svelte';
 
-	export let isActive: boolean;
+	export let isActive: boolean = false;
 	export let activeJobs: number;
 	export let inactiveJobs: number;
 </script>
