@@ -12,7 +12,7 @@
 <div class="flex flex-col justify-between rounded-lg border {borderColorClass} mb-4 p-4">
 	{#if isActive}
 		<a {href} class="flex h-full justify-between">
-			<div class="flex w-5/12 items-center justify-between pr-6">
+			<div class="flex w-6/12 items-center justify-between">
 				<div class="flex items-center">
 					<img src={imgSrc} alt={imgAlt} class="mr-4 h-5 w-5" />
 					<div>
@@ -21,7 +21,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="flex w-6/12 items-center text-sm">
+			<div class="flex w-5/12 items-center text-sm">
 				<slot />
 			</div>
 			<div class="flex w-1/12 items-center justify-center">
