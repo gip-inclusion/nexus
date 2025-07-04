@@ -10,9 +10,10 @@
 	import ModuleCardGps from '$lib/components/ModuleCardGps.svelte';
 	import ModuleCardPilotage from '$lib/components/ModuleCardPilotage.svelte';
 	import ModuleCardCommunaute from '$lib/components/ModuleCardCommunaute.svelte';
+	import { invalidate } from '$app/navigation';
 
 	let { data } = $props();
-	
+
 	const { structure, stats } = data;
 
 	const formatDate = (dateString: string) => {
@@ -34,17 +35,43 @@
 	const converter = new showdown.Converter();
 	const presentationHtml = converter.makeHtml(structure.presentation || '');
 
+	// Fonction pour activer un module
+	async function activateModule(moduleKey: ModuleName) {
+		console.log(`🚀 Activation du module: ${moduleKey}`);
+		console.log(
+			`📡 Ici il faudrait faire la requête Grist pour activer le module ${moduleKey} pour la structure ${structure.id}`
+		);
+
+		// Simulation de la requête (à remplacer par l'appel Grist)
+		try {
+			// TODO: Remplacer par la vraie requête Grist
+			// await fetch('/api/grist/activate-module', {
+			//   method: 'POST',
+			//   headers: { 'Content-Type': 'application/json' },
+			//   body: JSON.stringify({ structureId: structure.id, module: moduleKey })
+			// });
+
+			console.log(`✅ Module ${moduleKey} activé avec succès`);
+
+			await invalidate('structure:data');
+		} catch (error) {
+			console.error(`❌ Erreur lors de l'activation du module ${moduleKey}:`, error);
+		}
+	}
+
 	// Configuration des modules avec leurs composants et propriétés
 	const allModules = [
 		{
 			key: ModuleName.Communaute,
 			component: ModuleCardCommunaute,
-			props: {}
+			props: {},
+			onActivate: () => activateModule(ModuleName.Communaute)
 		},
 		{
 			key: ModuleName.Dora,
 			component: ModuleCardDora,
-			props: { activeServices: stats.activeServices }
+			props: { activeServices: stats.activeServices },
+			onActivate: () => activateModule(ModuleName.Dora)
 		},
 		{
 			key: ModuleName.Emplois,
@@ -69,17 +96,20 @@
 		{
 			key: ModuleName.MonRecap,
 			component: ModuleCardMonRecap,
-			props: {}
+			props: {},
+			onActivate: () => activateModule(ModuleName.Emplois)
 		},
 		{
 			key: ModuleName.Pilotage,
 			component: ModuleCardPilotage,
-			props: {}
+			props: {},
+			onActivate: () => activateModule(ModuleName.Pilotage)
 		},
 		{
 			key: ModuleName.RdvInsertion,
 			component: ModuleCardRdvInsertion,
-			props: {}
+			props: {},
+			onActivate: () => activateModule(ModuleName.RdvInsertion)
 		}
 	];
 
@@ -100,17 +130,17 @@
 			<div class="mb-8">
 				<h2 class="mb-4 text-base font-semibold">Mes app's</h2>
 
-				{#each activeModules as module(module.key)}
-    				{@const Component = module.component}
-    				<Component isActive={true} {...module.props}/>
+				{#each activeModules as module (module.key)}
+					{@const Component = module.component}
+					<Component isActive={true} {...module.props} />
 				{/each}
 			</div>
 
 			<div>
 				<h2 class="mb-4 text-base font-semibold">Ajoutez de nouvelles app's</h2>
-				{#each inactiveModules as module(module.key)}
-				    {@const Component = module.component}
-    				<Component isActive={false} {...module.props}/>
+				{#each inactiveModules as module (module.key)}
+					{@const Component = module.component}
+					<Component isActive={false} {...module.props} onActivate={module.onActivate} />
 				{/each}
 			</div>
 		</section>

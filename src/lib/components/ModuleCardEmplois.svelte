@@ -4,16 +4,18 @@
 	export let isActive: boolean = false;
 	export let activeJobs: number;
 	export let inactiveJobs: number;
+	export let onActivate: () => void = () => {};
 </script>
 
 <ModuleCard
-    isActive={isActive}
+	{isActive}
 	title="Offres d'emplois"
 	baseline="Faciliter la mise en relation avec les employeurs solidaires"
 	subtitle="les Emplois de l’inclusion"
 	imgSrc="/images/logo-emplois.png"
 	imgAlt="Offres d'emploi logo"
 	href="/structure/offres-emploi"
+	{onActivate}
 >
 	<div class="align-items flex flex-col">
 		<p class="mb-1">

@@ -1,10 +1,11 @@
 <script lang="ts">
 	import ModuleCard from './ModuleCard.svelte';
 	export let isActive: boolean = false;
+	export let onActivate: () => void = () => {};
 </script>
 
 <ModuleCard
-    isActive={isActive}
+	{isActive}
 	title="Immersions professionnelles"
 	baseline="Faciliter la réalisation des immersions professionnelles"
 	subtitle="Immersion Facilitée"
@@ -12,6 +13,5 @@
 	imgAlt="Logo Immersion Facilitée"
 	href="/structure"
 >
-	<div class="flex flex-col align-items">
-	</div>
+	<div class="align-items flex flex-col"></div>
 </ModuleCard>

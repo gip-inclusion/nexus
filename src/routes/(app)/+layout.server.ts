@@ -11,6 +11,8 @@ export async function load({ locals }) {
 	if (!structureId) {
 		throw new Error('L’utilisateur n’est associé à aucune structure');
 	}
+	
+	depends('structure:data');
 
 	const structure = await structureRepositoryGrist.getStructureById(structureId);
 	if (!structure) {
@@ -22,3 +24,7 @@ export async function load({ locals }) {
 		structure: structure.toJSON(),
 	};
 }
+function depends(arg0: string) {
+    throw new Error('Function not implemented.');
+}
+
