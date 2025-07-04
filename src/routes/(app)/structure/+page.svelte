@@ -10,11 +10,10 @@
 	import ModuleCardGps from '$lib/components/ModuleCardGps.svelte';
 	import ModuleCardPilotage from '$lib/components/ModuleCardPilotage.svelte';
 	import ModuleCardCommunaute from '$lib/components/ModuleCardCommunaute.svelte';
-	
+
 	let { data } = $props();
 
 	const { structure, stats } = data;
-	let structureModules = $derived(structure.modules);
 
 	const formatDate = (dateString: string) => {
 		if (!dateString) return '-';
@@ -39,12 +38,6 @@
 		if (!structure || !structure.id) {
 			return;
 		}
-
-		console.log(`🚀 Activation du module: ${moduleKey}`);
-		console.log(structure.modules);
-
-		structureModules.push(moduleKey);
-		
 		try {
 			const response = await fetch('/api/structures/modules', {
 				method: 'POST',
@@ -58,7 +51,11 @@
 				const error = await response.json();
 				throw new Error(error.error || "Erreur lors de l'activation du module");
 			}
-			console.log(`✅ Module ${moduleKey} activé avec succès`);
+			
+			// Ici, on forece le rafraîchissement total de la page / application pour s'assurer de n'avoir aucun état intermédiaire incohérent
+			// d'autant plus qu'il faut gérer la navigation dans la sidebar ou dans la tabbar de la page /structure
+			window.location.reload();
+
 		} catch (error) {
 			console.error(`❌ Erreur lors de l'activation du module ${moduleKey}:`, error);
 		}
@@ -121,12 +118,14 @@
 		}
 	];
 
-	let activeModules = $derived(
-		allModules.filter((module) => isActiveModule(module.key, structureModules))
-	);
-	let inactiveModules = $derived(
-		allModules.filter((module) => !isActiveModule(module.key, structureModules))
-	);
+	let activeModules = $derived.by(() => {
+		const result = allModules.filter((module) => isActiveModule(module.key, structure.modules));
+		return result;
+	});
+	let inactiveModules = $derived.by(() => {
+		const result = allModules.filter((module) => !isActiveModule(module.key, structure.modules));
+		return result;
+	});
 </script>
 
 <div>
@@ -136,13 +135,11 @@
 		<section class="flex flex-col rounded-lg border border-gray-200 bg-white p-6">
 			<div class="mb-8">
 				<h2 class="mb-4 text-base font-semibold">Mes app's</h2>
-
 				{#each activeModules as module (module.key)}
 					{@const Component = module.component}
 					<Component isActive={true} {...module.props} />
 				{/each}
 			</div>
-
 			<div>
 				<h2 class="mb-4 text-base font-semibold">Ajoutez de nouvelles app's</h2>
 				{#each inactiveModules as module (module.key)}
