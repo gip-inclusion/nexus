@@ -41,6 +41,7 @@ export class Structure {
 
 export interface StructureRepository {
 	getStructureById(structureId: string): Promise<Structure>;
+	activateModule(structureId: string, moduleName: ModuleName): Promise<void>;
 }
 
 export class StructureRepositoryGrist implements StructureRepository {
@@ -93,6 +94,27 @@ export class StructureRepositoryGrist implements StructureRepository {
 
 		return structure;
 	}
+
+	async activateModule(structureId: string, moduleName: ModuleName): Promise<void> {
+		const currentStructure = await this.getStructureById(structureId);
+
+		if (currentStructure.modules.includes(moduleName)) {
+			return;
+		}
+
+		const updatedModules = ['L', ...currentStructure.modules, moduleName];
+
+		await this.gristClient.requestGristTable('PATCH', 'Structures', 'records', {
+			records: [
+				{
+					id: parseInt(structureId),
+					fields: {
+						Modules: updatedModules
+					}
+				}
+			]
+		});
+	}
 }
 
-export const structureRepositoryGrist = new StructureRepositoryGrist(gristClient);
+export const structureRepository = new StructureRepositoryGrist(gristClient);

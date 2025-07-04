@@ -10,11 +10,11 @@
 	import ModuleCardGps from '$lib/components/ModuleCardGps.svelte';
 	import ModuleCardPilotage from '$lib/components/ModuleCardPilotage.svelte';
 	import ModuleCardCommunaute from '$lib/components/ModuleCardCommunaute.svelte';
-	import { invalidate } from '$app/navigation';
-
+	
 	let { data } = $props();
 
 	const { structure, stats } = data;
+	let structureModules = $derived(structure.modules);
 
 	const formatDate = (dateString: string) => {
 		if (!dateString) return '-';
@@ -35,31 +35,35 @@
 	const converter = new showdown.Converter();
 	const presentationHtml = converter.makeHtml(structure.presentation || '');
 
-	// Fonction pour activer un module
 	async function activateModule(moduleKey: ModuleName) {
+		if (!structure || !structure.id) {
+			return;
+		}
+
 		console.log(`🚀 Activation du module: ${moduleKey}`);
-		console.log(
-			`📡 Ici il faudrait faire la requête Grist pour activer le module ${moduleKey} pour la structure ${structure.id}`
-		);
+		console.log(structure.modules);
 
-		// Simulation de la requête (à remplacer par l'appel Grist)
+		structureModules.push(moduleKey);
+		
 		try {
-			// TODO: Remplacer par la vraie requête Grist
-			// await fetch('/api/grist/activate-module', {
-			//   method: 'POST',
-			//   headers: { 'Content-Type': 'application/json' },
-			//   body: JSON.stringify({ structureId: structure.id, module: moduleKey })
-			// });
+			const response = await fetch('/api/structures/modules', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ moduleKey })
+			});
 
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.error || "Erreur lors de l'activation du module");
+			}
 			console.log(`✅ Module ${moduleKey} activé avec succès`);
-
-			await invalidate('structure:data');
 		} catch (error) {
 			console.error(`❌ Erreur lors de l'activation du module ${moduleKey}:`, error);
 		}
 	}
 
-	// Configuration des modules avec leurs composants et propriétés
 	const allModules = [
 		{
 			key: ModuleName.Communaute,
@@ -76,28 +80,32 @@
 		{
 			key: ModuleName.Emplois,
 			component: ModuleCardEmplois,
-			props: { activeJobs: stats.activeJobs, inactiveJobs: stats.inactiveJobs }
+			props: { activeJobs: stats.activeJobs, inactiveJobs: stats.inactiveJobs },
+			onActivate: () => activateModule(ModuleName.Emplois)
 		},
 		{
 			key: ModuleName.Gps,
 			component: ModuleCardGps,
-			props: {}
+			props: {},
+			onActivate: () => activateModule(ModuleName.Gps)
 		},
 		{
 			key: ModuleName.ImmersionFacilitee,
 			component: ModuleCardImmersionFacilitee,
-			props: {}
+			props: {},
+			onActivate: () => activateModule(ModuleName.ImmersionFacilitee)
 		},
 		{
 			key: ModuleName.Marche,
 			component: ModuleCardMarche,
-			props: { activeOpportunities: stats.activeOpportunities }
+			props: { activeOpportunities: stats.activeOpportunities },
+			onActivate: () => activateModule(ModuleName.Marche)
 		},
 		{
 			key: ModuleName.MonRecap,
 			component: ModuleCardMonRecap,
 			props: {},
-			onActivate: () => activateModule(ModuleName.Emplois)
+			onActivate: () => activateModule(ModuleName.MonRecap)
 		},
 		{
 			key: ModuleName.Pilotage,
@@ -113,12 +121,11 @@
 		}
 	];
 
-	// Filtrer les modules actifs et inactifs
-	const activeModules = $derived(
-		allModules.filter((module) => isActiveModule(module.key, structure.modules))
+	let activeModules = $derived(
+		allModules.filter((module) => isActiveModule(module.key, structureModules))
 	);
-	const inactiveModules = $derived(
-		allModules.filter((module) => !isActiveModule(module.key, structure.modules))
+	let inactiveModules = $derived(
+		allModules.filter((module) => !isActiveModule(module.key, structureModules))
 	);
 </script>
 

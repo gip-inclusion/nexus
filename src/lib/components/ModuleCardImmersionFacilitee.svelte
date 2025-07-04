@@ -12,6 +12,7 @@
 	imgSrc="/images/logo-immersion-facilitee.png"
 	imgAlt="Logo Immersion Facilitée"
 	href="/structure"
+	{onActivate}
 >
 	<div class="align-items flex flex-col"></div>
 </ModuleCard>

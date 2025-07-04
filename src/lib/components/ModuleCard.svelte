@@ -11,15 +11,14 @@
 	export let onActivate: () => void = () => {};
 
 	async function handleInactiveClick(event: MouseEvent) {
-		console.log('ModuleCard#handleInactiveClick');
 		event.preventDefault();
 		onActivate();
 	}
 </script>
 
-<div class="flex flex-col justify-between rounded-lg border {borderColorClass} mb-4 p-4">
+<div class="flex flex-col justify-between rounded-lg border {borderColorClass} mb-4">
 	{#if isActive}
-		<a {href} class="flex h-full justify-between">
+		<a {href} class="flex h-full justify-between p-4">
 			<div class="flex w-6/12 items-center justify-between">
 				<div class="flex items-center">
 					<img src={imgSrc} alt={imgAlt} class="mr-4 h-5 w-5" />
@@ -39,8 +38,9 @@
 	{:else}
 		<button
 			type="button"
-			class="flex h-full w-full cursor-pointer justify-between text-left hover:bg-gray-50"
+			class="flex h-full w-full justify-between text-left hover:bg-gray-50 p-4"
 			onclick={handleInactiveClick}
+			aria-label="Activer le module"
 		>
 			<div class="flex w-11/12 items-center justify-between pr-6">
 				<div class="flex items-center">
